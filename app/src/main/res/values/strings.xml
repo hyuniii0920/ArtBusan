@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ArtBusan</string>
+    <string name="museum_name">ArtBusan</string>
+    <string name="section_ar">AR 전시안내</string>
+    <string name="ar_title">AR 길찾기</string>
+    <string name="ar_subtitle">복잡한 박물관도\n쉬운 길안내로 편하게</string>
+    <string name="ar_run">AR 실행</string>
+    <string name="distance">121m</string>
+    <string name="page_indicator">1/2</string>
+    <string name="section_services">많이 찾는 서비스</string>
+    <string name="service_ar_path">AR길찾기</string>
+    <string name="service_ar_path_sub">실내 동선 안내</string>
+    <string name="service_tour">나의 전시투어</string>
+    <string name="service_tour_sub">저장한 투어</string>
+    <string name="service_stamp">스탬프</string>
+    <string name="service_stamp_sub">방문 기록</string>
+    <string name="service_ar_run">AR 실행</string>
+    <string name="service_ar_run_sub">카메라 연결</string>
+    <string name="section_tour">투어 동선</string>
+    <string name="tab_recommend">추천동선</string>
+    <string name="tab_my_tour">나의 전시투어</string>
+    <string name="tour_time">40분</string>
+    <string name="nav_home">홈</string>
+    <string name="nav_explore">탐색</string>
+    <string name="nav_create">제작</string>
+    <string name="nav_profile">프로필</string>
+</resources>

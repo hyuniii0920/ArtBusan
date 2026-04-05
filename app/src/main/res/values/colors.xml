@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="primary_teal">#1A3BC4</color>
+    <color name="primary_teal_dark">#0F278F</color>
+    <color name="light_teal">#E6ECFF</color>
+    <color name="text_primary">#0D1A3A</color>
+    <color name="text_secondary">#7A88AA</color>
+    <color name="divider">#E8EEFF</color>
+    <color name="bg_content">#F4F6FF</color>
+    <color name="badge_bg">#55000033</color>
+    <color name="time_badge_bg">#EDF0FF</color>
+    <color name="tab_unselected_border">#D0D8FF</color>
+    <color name="card_bg_start">#C8D5FB</color>
+    <color name="nav_circle_bg">#FFFFFF</color>
+</resources>

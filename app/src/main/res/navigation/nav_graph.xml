@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.artbusan.HomeFragment"
+        android:label="홈" />
+
+    <fragment
+        android:id="@+id/exploreFragment"
+        android:name="com.example.artbusan.ExploreFragment"
+        android:label="탐색" />
+
+    <fragment
+        android:id="@+id/createFragment"
+        android:name="com.example.artbusan.CreateFragment"
+        android:label="제작" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.artbusan.ProfileFragment"
+        android:label="프로필" />
+
+</navigation>
