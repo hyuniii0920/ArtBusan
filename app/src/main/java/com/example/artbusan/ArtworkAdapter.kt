@@ -6,8 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ArtworkAdapter(private val items: List<ArtworkItem>) :
-    RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
+class ArtworkAdapter(
+    private val items: List<ArtworkItem>,
+    private val onItemClick: (ArtworkItem) -> Unit
+) : RecyclerView.Adapter<ArtworkAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvCategory: TextView = view.findViewById(R.id.tvCategory)
@@ -26,6 +28,7 @@ class ArtworkAdapter(private val items: List<ArtworkItem>) :
         holder.tvCategory.text = item.category
         holder.tvTitle.text = item.title
         holder.tvFloor.text = item.location
+        holder.itemView.setOnClickListener { onItemClick(item) }
     }
 
     override fun getItemCount() = items.size

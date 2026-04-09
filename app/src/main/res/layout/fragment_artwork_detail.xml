@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0D1A3A">
+
+    <!-- 배경 포스터 이미지 (그라디언트 없음) -->
+    <ImageView
+        android:id="@+id/imgPoster"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/test_poster" />
+
+    <!-- 콘텐츠: 사진 위에 바로 올라가는 레이어 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 가이드라인: 화면 38% 지점에서 패널 시작 -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineHero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.38" />
+
+        <!-- 하단 정보 패널: 투명→네이비 그라디언트 배경 -->
+        <!-- 패널 자체가 사진 위에서 자연스럽게 페이드인 -->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/bottomPanel"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_detail_panel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guidelineHero">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="72dp"
+                android:paddingBottom="40dp">
+
+                <!-- 정보 행: 위치 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="14dp"
+                        android:src="@drawable/ic_location" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="monospace"
+                            android:letterSpacing="0.1"
+                            android:text="LOCATION"
+                            android:textColor="#4D7EB8FF"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/tvDetailLocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="해운대구 우동"
+                            android:textColor="#E6FFFFFF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 정보 행: 운영 시간 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="14dp"
+                        android:src="@drawable/ic_clock" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="monospace"
+                            android:letterSpacing="0.1"
+                            android:text="HOURS"
+                            android:textColor="#4D7EB8FF"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/tvDetailHours"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="10:00 – 18:00 (월요일 휴관)"
+                            android:textColor="#E6FFFFFF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 정보 행: 입장료 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="14dp"
+                        android:src="@drawable/ic_ticket" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="monospace"
+                            android:letterSpacing="0.1"
+                            android:text="ADMISSION"
+                            android:textColor="#4D7EB8FF"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/tvDetailFee"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="무료 관람"
+                            android:textColor="#E6FFFFFF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 정보 행: 전화번호 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="14dp"
+                        android:src="@drawable/ic_phone" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="monospace"
+                            android:letterSpacing="0.1"
+                            android:text="CONTACT"
+                            android:textColor="#4D7EB8FF"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/tvDetailPhone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="051-120-0000"
+                            android:textColor="#E6FFFFFF"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 구분선 -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="#1AFFFFFF" />
+
+                <!-- 소개글 -->
+                <TextView
+                    android:id="@+id/tvDetailDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="28dp"
+                    android:lineSpacingMultiplier="1.7"
+                    android:text="부산의 현대미술을 대표하는 공간으로, 국내외 현대미술 작품을 상설 및 기획 전시합니다. 다양한 장르의 작품을 통해 현대미술의 흐름을 만날 수 있으며, 아름다운 주변 환경과 함께 예술적 영감을 경험할 수 있습니다."
+                    android:textColor="#99C8E0FF"
+                    android:textSize="13sp" />
+
+                <!-- AR 실행 버튼 -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDetailAr"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="AR로 전시 체험하기"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#1A3BC4"
+                    app:cornerRadius="14dp" />
+
+                <!-- 길찾기 버튼 -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDetailMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="길찾기"
+                    android:textColor="#7EB8FF"
+                    android:textSize="14sp"
+                    app:backgroundTint="#00000000"
+                    app:cornerRadius="14dp"
+                    app:strokeColor="#331A3BC4"
+                    app:strokeWidth="1dp" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- 뒤로가기 버튼 (사진 위, 최상단 레이어) -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_hud_btn"
+            android:contentDescription="뒤로가기"
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- "MUSEUM" 태그 (사진 위 텍스트) -->
+        <TextView
+            android:id="@+id/tvMuseumTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.2"
+            android:shadowColor="#CC000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="6"
+            android:text="MUSEUM"
+            android:textColor="#9FFFFFFF"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@id/tvDetailCategory"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- 구/군 배지 -->
+        <TextView
+            android:id="@+id/tvDetailCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_detail_tag"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:text="해운대구"
+            android:textColor="#7EB8FF"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toTopOf="@id/tvDetailTitle"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- 메인 타이틀 (사진 위, 그림자로 가독성 확보) -->
+        <TextView
+            android:id="@+id/tvDetailTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="6dp"
+            android:shadowColor="#CC000000"
+            android:shadowDx="0"
+            android:shadowDy="2"
+            android:shadowRadius="12"
+            android:text="부산현대미술관"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:lineSpacingMultiplier="1.1"
+            app:layout_constraintBottom_toTopOf="@id/guidelineHero"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

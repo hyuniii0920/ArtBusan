@@ -7,21 +7,15 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.artbusan.HomeFragment"
-        android:label="홈" />
+        android:label="홈">
+        <action
+            android:id="@+id/action_home_to_detail"
+            app:destination="@id/artworkDetailFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/exploreFragment"
-        android:name="com.example.artbusan.ExploreFragment"
-        android:label="탐색" />
-
-    <fragment
-        android:id="@+id/createFragment"
-        android:name="com.example.artbusan.CreateFragment"
-        android:label="제작" />
-
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.artbusan.ProfileFragment"
-        android:label="프로필" />
+        android:id="@+id/artworkDetailFragment"
+        android:name="com.example.artbusan.ArtworkDetailFragment"
+        android:label="전시 상세" />
 
 </navigation>
