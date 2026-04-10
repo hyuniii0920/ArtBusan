@@ -6,25 +6,33 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="#0E1320">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/bg_artwork_card">
 
         <!-- Image Placeholder -->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:background="#0E1320">
+            android:layout_height="130dp"
+            android:background="#0A1628">
+
+            <!-- 네온 글로우 대각선 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_card_image_glow" />
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_stamp"
-                android:alpha="0.3" />
+                android:alpha="0.12" />
         </FrameLayout>
 
         <!-- Info -->
@@ -45,7 +53,7 @@
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
                 android:text="별칭"
-                android:textColor="@color/primary_teal"
+                android:textColor="@color/text_secondary"
                 android:textSize="10sp"
                 android:layout_marginBottom="4dp" />
 
@@ -65,8 +73,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="상세정보란입니다."
-                android:textColor="@color/text_secondary"
+                android:text="상세정보"
+                android:textColor="#3860A5FA"
                 android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>

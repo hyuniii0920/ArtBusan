@@ -236,7 +236,8 @@
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    app:backgroundTint="#2563EB"
+                    app:backgroundTint="#00000000"
+                    android:background="@drawable/bg_tab_selected"
                     app:cornerRadius="14dp" />
 
                 <!-- 길찾기 버튼 -->
