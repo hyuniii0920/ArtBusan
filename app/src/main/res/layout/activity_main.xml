@@ -70,21 +70,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/topBar" />
 
-        <!-- FAB: 네온 그라디언트 -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <!-- FAB: HUD 아웃라인 원형 -->
+        <FrameLayout
             android:id="@+id/fabCreate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_fab_hud"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
             android:contentDescription="투어 제작"
-            android:src="@drawable/ic_add"
-            app:backgroundTint="#00000000"
-            app:tint="@android:color/white"
-            android:background="@drawable/bg_fab_neon"
-            app:elevation="8dp"
+            android:elevation="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_add"
+                android:tint="#60A5FA" />
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

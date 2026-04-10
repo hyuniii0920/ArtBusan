@@ -116,36 +116,19 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!-- AR 실행 버튼 (HUD 스타일) -->
-                    <LinearLayout
+                    <!-- AR 실행 버튼 -->
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnArRun"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
+                        android:layout_marginEnd="30dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="24dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:background="?attr/selectableItemBackgroundBorderless">
-
-                        <!-- 좌측 수직 네온 바 -->
-                        <View
-                            android:layout_width="2dp"
-                            android:layout_height="22dp"
-                            android:layout_marginEnd="8dp"
-                            android:background="#60A5FA" />
-
-                        <!-- [ AR 실행 ] 텍스트 -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="[ AR 실행 ]"
-                            android:textColor="#E8F0FE"
-                            android:textSize="12sp"
-                            android:fontFamily="monospace"
-                            android:letterSpacing="0.1"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                        android:text="@string/ar_run"
+                        android:textColor="@android:color/white"
+                        android:textSize="13sp"
+                        app:backgroundTint="@color/primary_teal"
+                        app:cornerRadius="8dp" />
 
                     <!-- 페이지 도트 -->
                     <LinearLayout

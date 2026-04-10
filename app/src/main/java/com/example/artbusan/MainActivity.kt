@@ -11,7 +11,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // FAB — 투어 제작
-        findViewById<FloatingActionButton>(R.id.fabCreate).setOnClickListener {
+        findViewById<android.view.View>(R.id.fabCreate).setOnClickListener {
             Toast.makeText(this, "투어 제작 (준비 중)", Toast.LENGTH_SHORT).show()
         }
 
