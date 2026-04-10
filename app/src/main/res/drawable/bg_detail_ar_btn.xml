@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 네온 그라디언트 배경 -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="135"
+                android:startColor="#2563EB"
+                android:endColor="#60A5FA"
+                android:type="linear" />
+            <corners android:radius="14dp" />
+        </shape>
+    </item>
+    <!-- 상단 하이라이트 (유리 느낌) -->
+    <item
+        android:bottom="25dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#1AFFFFFF" />
+            <corners
+                android:topLeftRadius="14dp"
+                android:topRightRadius="14dp" />
+        </shape>
+    </item>
+</layer-list>

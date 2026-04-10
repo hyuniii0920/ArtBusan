@@ -42,10 +42,6 @@ class ArtworkDetailFragment : Fragment() {
         view.findViewById<View>(R.id.btnDetailAr).setOnClickListener {
             Toast.makeText(requireContext(), "AR 실행", Toast.LENGTH_SHORT).show()
         }
-
-        view.findViewById<View>(R.id.btnDetailMap).setOnClickListener {
-            Toast.makeText(requireContext(), "길찾기", Toast.LENGTH_SHORT).show()
-        }
     }
 
     private data class MuseumInfo(

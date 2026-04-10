@@ -75,7 +75,6 @@
             android:id="@+id/fabCreate"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginStart="20dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/bg_fab_hud"
             android:foreground="?attr/selectableItemBackgroundBorderless"
@@ -84,7 +83,8 @@
             android:contentDescription="투어 제작"
             android:elevation="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
                 android:layout_width="24dp"

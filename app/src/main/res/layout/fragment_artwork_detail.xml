@@ -74,7 +74,7 @@
                             android:fontFamily="monospace"
                             android:letterSpacing="0.1"
                             android:text="LOCATION"
-                            android:textColor="#2060A5FA"
+                            android:textColor="#9960A5FA"
                             android:textSize="9sp" />
 
                         <TextView
@@ -114,7 +114,7 @@
                             android:fontFamily="monospace"
                             android:letterSpacing="0.1"
                             android:text="HOURS"
-                            android:textColor="#2060A5FA"
+                            android:textColor="#9960A5FA"
                             android:textSize="9sp" />
 
                         <TextView
@@ -154,7 +154,7 @@
                             android:fontFamily="monospace"
                             android:letterSpacing="0.1"
                             android:text="ADMISSION"
-                            android:textColor="#2060A5FA"
+                            android:textColor="#9960A5FA"
                             android:textSize="9sp" />
 
                         <TextView
@@ -194,7 +194,7 @@
                             android:fontFamily="monospace"
                             android:letterSpacing="0.1"
                             android:text="CONTACT"
-                            android:textColor="#2060A5FA"
+                            android:textColor="#9960A5FA"
                             android:textSize="9sp" />
 
                         <TextView
@@ -226,32 +226,17 @@
                     android:textColor="#99C8E0FF"
                     android:textSize="13sp" />
 
-                <!-- AR 실행 버튼 -->
-                <com.google.android.material.button.MaterialButton
+                <!-- AR 실행 버튼 (네온 그라디언트 TextView) -->
+                <TextView
                     android:id="@+id/btnDetailAr"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/bg_detail_ar_btn"
+                    android:gravity="center"
                     android:text="AR로 전시 체험하기"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:backgroundTint="#00000000"
-                    android:background="@drawable/bg_tab_selected"
-                    app:cornerRadius="14dp" />
-
-                <!-- 길찾기 버튼 -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnDetailMap"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="길찾기"
-                    android:textColor="#60A5FA"
-                    android:textSize="14sp"
-                    app:backgroundTint="#00000000"
-                    app:cornerRadius="14dp"
-                    app:strokeColor="#332563EB"
-                    app:strokeWidth="1dp" />
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
