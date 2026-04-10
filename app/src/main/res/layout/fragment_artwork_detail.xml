@@ -74,7 +74,7 @@
                             android:fontFamily="monospace"
                             android:letterSpacing="0.1"
                             android:text="LOCATION"
-                            android:textColor="#4D7EB8FF"
+                            android:textColor="#2060A5FA"
                             android:textSize="9sp" />
 
                         <TextView
@@ -114,7 +114,7 @@
                             android:fontFamily="monospace"
                             android:letterSpacing="0.1"
                             android:text="HOURS"
-                            android:textColor="#4D7EB8FF"
+                            android:textColor="#2060A5FA"
                             android:textSize="9sp" />
 
                         <TextView
@@ -154,7 +154,7 @@
                             android:fontFamily="monospace"
                             android:letterSpacing="0.1"
                             android:text="ADMISSION"
-                            android:textColor="#4D7EB8FF"
+                            android:textColor="#2060A5FA"
                             android:textSize="9sp" />
 
                         <TextView
@@ -194,7 +194,7 @@
                             android:fontFamily="monospace"
                             android:letterSpacing="0.1"
                             android:text="CONTACT"
-                            android:textColor="#4D7EB8FF"
+                            android:textColor="#2060A5FA"
                             android:textSize="9sp" />
 
                         <TextView
@@ -236,7 +236,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    app:backgroundTint="#1A3BC4"
+                    app:backgroundTint="#2563EB"
                     app:cornerRadius="14dp" />
 
                 <!-- 길찾기 버튼 -->
@@ -245,11 +245,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:text="길찾기"
-                    android:textColor="#7EB8FF"
+                    android:textColor="#60A5FA"
                     android:textSize="14sp"
                     app:backgroundTint="#00000000"
                     app:cornerRadius="14dp"
-                    app:strokeColor="#331A3BC4"
+                    app:strokeColor="#332563EB"
                     app:strokeWidth="1dp" />
 
             </LinearLayout>
@@ -301,7 +301,7 @@
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:text="해운대구"
-            android:textColor="#7EB8FF"
+            android:textColor="#60A5FA"
             android:textSize="11sp"
             app:layout_constraintBottom_toTopOf="@id/tvDetailTitle"
             app:layout_constraintStart_toStartOf="parent" />
