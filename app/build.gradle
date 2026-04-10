@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -44,6 +45,17 @@ dependencies {
     implementation libs.androidx.recyclerview
     implementation libs.androidx.navigation.fragment.ktx
     implementation libs.androidx.navigation.ui.ktx
+    // Room
+    implementation libs.room.runtime
+    implementation libs.room.ktx
+    ksp libs.room.compiler
+    // Lifecycle
+    implementation libs.lifecycle.viewmodel
+    implementation libs.lifecycle.livedata
+    // Coil
+    implementation libs.coil
+    // Gson
+    implementation libs.gson
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core

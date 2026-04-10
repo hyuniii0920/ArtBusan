@@ -8,22 +8,21 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.artbusan.data.MuseumDatabase
+import com.example.artbusan.data.MuseumRepository
+import com.example.artbusan.viewmodel.MuseumViewModel
+import com.example.artbusan.viewmodel.MuseumViewModelFactory
 
 class HomeFragment : Fragment() {
 
-    private val artworks = listOf(
-        ArtworkItem("부산현대미술관", "해운대구", "해운대구 우동"),
-        ArtworkItem("F1963", "수영구", "수영구 망미동"),
-        ArtworkItem("부산시립미술관", "남구", "남구 대연동"),
-        ArtworkItem("고은사진미술관", "해운대구", "해운대구 중동"),
-        ArtworkItem("아르떼뮤지엄 부산", "영도구", "영도구 동삼동"),
-        ArtworkItem("부산근대역사관", "중구", "중구 대청동"),
-        ArtworkItem("민주공원", "중구", "중구 영주동"),
-        ArtworkItem("금정문화회관", "금정구", "금정구 부곡동"),
-    )
+    private val viewModel: MuseumViewModel by viewModels {
+        val db = MuseumDatabase.getInstance(requireContext())
+        MuseumViewModelFactory(MuseumRepository(db.museumDao(), requireContext()))
+    }
 
     private lateinit var adapter: ArtworkAdapter
     private val chips = mutableListOf<TextView>()
@@ -38,17 +37,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // AR 실행 버튼
         view.findViewById<View>(R.id.btnArRun).setOnClickListener {
             Toast.makeText(requireContext(), "AR 실행", Toast.LENGTH_SHORT).show()
         }
 
-        // RecyclerView
-        adapter = ArtworkAdapter(artworks) { item ->
+        adapter = ArtworkAdapter { museum ->
             val bundle = bundleOf(
-                "title" to item.title,
-                "category" to item.category,
-                "location" to item.location
+                "id" to museum.id,
+                "title" to museum.title,
+                "category" to museum.category,
+                "location" to museum.location
             )
             findNavController().navigate(R.id.action_home_to_detail, bundle)
         }
@@ -57,24 +55,37 @@ class HomeFragment : Fragment() {
             adapter = this@HomeFragment.adapter
         }
 
-        // 카테고리 칩
-        chips.addAll(listOf(
-            view.findViewById(R.id.chipAll),
-            view.findViewById(R.id.chipHaeundae),
-            view.findViewById(R.id.chipSuyeong),
-            view.findViewById(R.id.chipNam),
-            view.findViewById(R.id.chipYeongdo),
-            view.findViewById(R.id.chipJung),
-            view.findViewById(R.id.chipDong),
-            view.findViewById(R.id.chipBusanjin),
-            view.findViewById(R.id.chipDongrae),
-            view.findViewById(R.id.chipGeumjeong),
-            view.findViewById(R.id.chipGijang)
-        ))
+        // 칩 — id와 카테고리 문자열 매핑 (null = 전체)
+        val chipDefs: List<Pair<Int, String?>> = listOf(
+            R.id.chipAll to null,
+            R.id.chipHaeundae to "해운대구",
+            R.id.chipSuyeong to "수영구",
+            R.id.chipNam to "남구",
+            R.id.chipYeongdo to "영도구",
+            R.id.chipJung to "중구",
+            R.id.chipDong to "동구",
+            R.id.chipBusanjin to "부산진구",
+            R.id.chipDongrae to "동래구",
+            R.id.chipGeumjeong to "금정구",
+            R.id.chipGijang to "기장군"
+        )
 
-        chips.forEach { chip ->
-            chip.setOnClickListener { selectChip(chip) }
+        chipDefs.forEach { (chipId, category) ->
+            val chip = view.findViewById<TextView>(chipId)
+            chips.add(chip)
+            chip.setOnClickListener {
+                selectChip(chip)
+                viewModel.load(category)
+            }
         }
+
+        viewModel.museums.observe(viewLifecycleOwner) { list ->
+            adapter.submitList(list)
+        }
+
+        // 초기 전체 로드
+        viewModel.load()
+        selectChip(view.findViewById(R.id.chipAll))
     }
 
     private fun selectChip(selected: TextView) {

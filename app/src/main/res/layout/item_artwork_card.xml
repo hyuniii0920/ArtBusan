@@ -28,9 +28,10 @@
                 android:background="@drawable/bg_card_image_glow" />
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
+                android:id="@+id/imgThumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_stamp"
                 android:alpha="0.12" />
         </FrameLayout>
