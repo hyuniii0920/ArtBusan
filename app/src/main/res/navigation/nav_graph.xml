@@ -18,4 +18,19 @@
         android:name="com.example.artbusan.ArtworkDetailFragment"
         android:label="전시 상세" />
 
+    <fragment
+        android:id="@+id/noticeFragment"
+        android:name="com.example.artbusan.NoticeFragment"
+        android:label="공지사항" />
+
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="com.example.artbusan.LanguageFragment"
+        android:label="언어 설정" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.artbusan.SettingsFragment"
+        android:label="설정" />
+
 </navigation>

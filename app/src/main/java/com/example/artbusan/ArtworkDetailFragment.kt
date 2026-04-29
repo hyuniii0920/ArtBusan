@@ -49,7 +49,7 @@ class ArtworkDetailFragment : Fragment() {
             val category = arguments?.getString("category") ?: ""
             val location = arguments?.getString("location") ?: ""
             view.findViewById<TextView>(R.id.tvDetailTitle).text = title
-            view.findViewById<TextView>(R.id.tvDetailCategory).text = category
+            view.findViewById<TextView>(R.id.tvDetailCategory).text = translateCategory(requireContext(), category)
             view.findViewById<TextView>(R.id.tvDetailLocation).text = location
             return
         }
@@ -58,7 +58,7 @@ class ArtworkDetailFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             val museum = dao.getById(museumId) ?: return@launch
             view.findViewById<TextView>(R.id.tvDetailTitle).text = museum.title
-            view.findViewById<TextView>(R.id.tvDetailCategory).text = museum.category
+            view.findViewById<TextView>(R.id.tvDetailCategory).text = translateCategory(requireContext(), museum.category)
             view.findViewById<TextView>(R.id.tvDetailLocation).text = museum.location
             view.findViewById<TextView>(R.id.tvDetailHours).text = museum.hours
             view.findViewById<TextView>(R.id.tvDetailFee).text = museum.fee

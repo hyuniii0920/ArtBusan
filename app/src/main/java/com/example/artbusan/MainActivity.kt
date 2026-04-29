@@ -1,5 +1,6 @@
 package com.example.artbusan
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -10,11 +11,19 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navController: NavController
+
+    override fun attachBaseContext(newBase: Context) {
+        val prefs = newBase.getSharedPreferences("artbusan_prefs", Context.MODE_PRIVATE)
+        val lang = prefs.getString("selected_language", "ko") ?: "ko"
+        super.attachBaseContext(LocaleHelper.wrap(newBase, lang))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,28 +38,35 @@ class MainActivity : AppCompatActivity() {
 
         drawerLayout = findViewById(R.id.drawerLayout)
 
-        // 상단 바 버튼
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.navHostFragment) as NavHostFragment
+        navController = navHostFragment.navController
+
         findViewById<android.widget.ImageButton>(R.id.btnMenu).setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.END)
         }
-        findViewById<android.widget.ImageButton>(R.id.btnSearch).setOnClickListener {
-            // 검색창으로 포커스 (HomeFragment의 etSearch)
-        }
+        findViewById<android.widget.ImageButton>(R.id.btnSearch).setOnClickListener { }
 
-        // FAB — 투어 제작
         findViewById<android.view.View>(R.id.fabCreate).setOnClickListener {
             Toast.makeText(this, "투어 제작 (준비 중)", Toast.LENGTH_SHORT).show()
         }
 
-        // 드로어 메뉴 항목
         val drawer = findViewById<LinearLayout>(R.id.drawerMenu)
-        listOf(
-            drawer.findViewById<TextView>(R.id.menuNotice),
-            drawer.findViewById(R.id.menuGuide),
-            drawer.findViewById(R.id.menuLanguage),
-            drawer.findViewById(R.id.menuAccessibility),
-            drawer.findViewById(R.id.menuSettings)
-        ).forEach { it.setOnClickListener { drawerLayout.closeDrawers() } }
+
+        fun navigateAndClose(destinationId: Int) {
+            navController.navigate(destinationId)
+            drawerLayout.closeDrawers()
+        }
+
+        drawer.findViewById<TextView>(R.id.menuNotice).setOnClickListener {
+            navigateAndClose(R.id.noticeFragment)
+        }
+        drawer.findViewById<TextView>(R.id.menuLanguage).setOnClickListener {
+            navigateAndClose(R.id.languageFragment)
+        }
+        drawer.findViewById<TextView>(R.id.menuSettings).setOnClickListener {
+            navigateAndClose(R.id.settingsFragment)
+        }
     }
 
     override fun onBackPressed() {

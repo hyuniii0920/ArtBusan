@@ -35,7 +35,7 @@ class ArtworkAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.tvCategory.text = item.category
+        holder.tvCategory.text = translateCategory(holder.itemView.context, item.category)
         holder.tvTitle.text = item.title
         holder.tvFloor.text = item.location
         holder.imgThumbnail.load(item.imageUrl.ifEmpty { null }) {

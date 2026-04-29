@@ -69,7 +69,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="11dp"
-                        android:text="AR 바로 사용하기"
+                        android:text="@string/ar_card_title"
                         android:textColor="@color/text_primary"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -84,7 +84,7 @@
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="6dp"
                         android:lineSpacingMultiplier="1.3"
-                        android:text="복잡한 전시도\n쉽고 편하게"
+                        android:text="@string/ar_card_subtitle"
                         android:textColor="#60A5FA"
                         android:textSize="13sp" />
 
@@ -195,7 +195,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="작품, 전시를 검색하세요"
+                    android:hint="@string/search_hint"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
@@ -227,7 +227,7 @@
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="전체"
+                        android:text="@string/chip_all"
                         android:textColor="@android:color/white"
                         android:textSize="13sp" />
 
@@ -240,7 +240,7 @@
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="해운대구"
+                        android:text="@string/chip_haeundae"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -253,7 +253,7 @@
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="수영구"
+                        android:text="@string/chip_suyeong"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -266,7 +266,7 @@
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="남구"
+                        android:text="@string/chip_nam"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -279,7 +279,7 @@
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="영도구"
+                        android:text="@string/chip_yeongdo"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -292,7 +292,7 @@
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="중구"
+                        android:text="@string/chip_jung"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -305,7 +305,7 @@
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="동구"
+                        android:text="@string/chip_dong"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -318,7 +318,7 @@
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="부산진구"
+                        android:text="@string/chip_busanjin"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -331,7 +331,7 @@
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="동래구"
+                        android:text="@string/chip_dongrae"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -344,7 +344,7 @@
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="금정구"
+                        android:text="@string/chip_geumjeong"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
 
@@ -356,7 +356,7 @@
                         android:gravity="center"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
-                        android:text="기장군"
+                        android:text="@string/chip_gijang"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
                 </LinearLayout>

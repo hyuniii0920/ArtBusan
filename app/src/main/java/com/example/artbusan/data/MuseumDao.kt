@@ -21,4 +21,7 @@ interface MuseumDao {
 
     @Query("SELECT COUNT(*) FROM museums")
     suspend fun count(): Int
+
+    @Query("DELETE FROM museums")
+    suspend fun deleteAll()
 }

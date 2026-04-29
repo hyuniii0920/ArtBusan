@@ -24,7 +24,10 @@ class MuseumRepository(private val dao: MuseumDao, private val context: Context)
 
     private suspend fun seedIfEmpty() {
         if (dao.count() == 0) {
-            val json = context.assets.open("museums.json").bufferedReader().readText()
+            val lang = context.getSharedPreferences("artbusan_prefs", Context.MODE_PRIVATE)
+                .getString("selected_language", "ko") ?: "ko"
+            val fileName = if (lang == "ko") "museums.json" else "museums_$lang.json"
+            val json = context.assets.open(fileName).bufferedReader().readText()
             val type = object : TypeToken<List<Museum>>() {}.type
             val museums: List<Museum> = Gson().fromJson(json, type)
             dao.insertAll(museums)

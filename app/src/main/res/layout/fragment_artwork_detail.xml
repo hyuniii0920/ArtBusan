@@ -73,7 +73,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="monospace"
                             android:letterSpacing="0.1"
-                            android:text="LOCATION"
+                            android:text="@string/label_location"
                             android:textColor="#9960A5FA"
                             android:textSize="9sp" />
 
@@ -113,7 +113,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="monospace"
                             android:letterSpacing="0.1"
-                            android:text="HOURS"
+                            android:text="@string/label_hours"
                             android:textColor="#9960A5FA"
                             android:textSize="9sp" />
 
@@ -153,7 +153,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="monospace"
                             android:letterSpacing="0.1"
-                            android:text="ADMISSION"
+                            android:text="@string/label_admission"
                             android:textColor="#9960A5FA"
                             android:textSize="9sp" />
 
@@ -193,7 +193,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="monospace"
                             android:letterSpacing="0.1"
-                            android:text="CONTACT"
+                            android:text="@string/label_contact"
                             android:textColor="#9960A5FA"
                             android:textSize="9sp" />
 
@@ -233,7 +233,7 @@
                     android:layout_height="50dp"
                     android:background="@drawable/bg_detail_ar_btn"
                     android:gravity="center"
-                    android:text="AR로 전시 체험하기"
+                    android:text="@string/ar_experience"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -268,7 +268,7 @@
             android:shadowDx="0"
             android:shadowDy="1"
             android:shadowRadius="6"
-            android:text="MUSEUM"
+            android:text="@string/label_museum"
             android:textColor="#9FFFFFFF"
             android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@id/tvDetailCategory"

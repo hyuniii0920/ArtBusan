@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "title": "Museum of Contemporary Art Busan",
+    "category": "해운대구",
+    "location": "58 APEC-ro, Haeundae-gu, Busan",
+    "hours": "10:00 – 18:00 (Closed Mondays)",
+    "fee": "Free admission",
+    "phone": "051-278-2345",
+    "description": "A leading space for contemporary art in Busan, showcasing both domestic and international works in permanent and special exhibitions. Located adjacent to Eulsukdo Ecological Park, visitors can enjoy nature alongside art.",
+    "imageUrl": ""
+  },
+  {
+    "id": 2,
+    "title": "F1963",
+    "category": "수영구",
+    "location": "20 Gurak-ro 123beon-gil, Suyeong-gu, Busan",
+    "hours": "10:00 – 19:00 (Open daily)",
+    "fee": "Free (some exhibits paid)",
+    "phone": "051-756-1963",
+    "description": "A multi-cultural complex transformed from the former Koryo Steel Suyeong factory. Features a library, exhibition halls, cafes, and performance venues offering a diverse range of cultural experiences.",
+    "imageUrl": ""
+  },
+  {
+    "id": 3,
+    "title": "Busan Museum of Art",
+    "category": "해운대구",
+    "location": "58 APEC-ro, Haeundae-gu, Busan",
+    "hours": "10:00 – 18:00 (Closed Mondays)",
+    "fee": "Adults ₩1,000 / Youth ₩600",
+    "phone": "051-744-2602",
+    "description": "The representative municipal art museum of Busan, housing modern and contemporary artworks. It operates diverse special exhibitions and educational programs, serving as the center of Busan's art and culture scene.",
+    "imageUrl": ""
+  },
+  {
+    "id": 4,
+    "title": "Goeun Museum of Photography",
+    "category": "해운대구",
+    "location": "264 Haeundaehaebyeon-ro, Haeundae-gu, Busan",
+    "hours": "10:00 – 18:00 (Closed Mondays)",
+    "fee": "Adults ₩5,000 / Students ₩3,000",
+    "phone": "051-746-0055",
+    "description": "Korea's first museum dedicated exclusively to photography, exhibiting works by both domestic and international photographers. A space to explore the history and modern trends of photographic art.",
+    "imageUrl": ""
+  },
+  {
+    "id": 5,
+    "title": "ARTE Museum Busan",
+    "category": "영도구",
+    "location": "25 Haeyangno 301beon-gil, Yeongdo-gu, Busan",
+    "hours": "10:00 – 20:00 (Open daily)",
+    "fee": "Adults ₩17,000 / Children ₩13,000",
+    "phone": "1800-1467",
+    "description": "An immersive media art experience using light and sound in large-scale interactive installations. Features a fantastical digital art world inspired by nature, offering a unique sensory journey.",
+    "imageUrl": ""
+  },
+  {
+    "id": 6,
+    "title": "Busan Modern History Museum",
+    "category": "중구",
+    "location": "104 Daecheong-ro, Jung-gu, Busan",
+    "hours": "09:00 – 18:00 (Closed Mondays)",
+    "fee": "Free admission",
+    "phone": "051-253-3845",
+    "description": "A museum preserving Busan's modern history from the opening of its ports to the present day. Housed in the former Busan branch of the Oriental Development Company, a significant historical building from the Japanese colonial era.",
+    "imageUrl": ""
+  },
+  {
+    "id": 7,
+    "title": "Democracy Park",
+    "category": "중구",
+    "location": "19 Minjugongwon-gil, Jung-gu, Busan",
+    "hours": "09:00 – 18:00 (Closed Mondays)",
+    "fee": "Free admission",
+    "phone": "051-790-7400",
+    "description": "A park commemorating the history of Busan's pro-democracy movement, featuring the Democracy Memorial Hall and outdoor park. Visitors can experience and learn about the democratization history of Busan.",
+    "imageUrl": ""
+  },
+  {
+    "id": 8,
+    "title": "Geumjeong Culture Center",
+    "category": "금정구",
+    "location": "1777 Jungang-daero, Geumjeong-gu, Busan",
+    "hours": "09:00 – 18:00 (Closed Mondays)",
+    "fee": "Varies by exhibition",
+    "phone": "051-519-5252",
+    "description": "The main cultural venue in Geumjeong-gu, offering exhibitions, performances, and educational programs. Regularly holds special exhibitions to discover and introduce works by local artists.",
+    "imageUrl": ""
+  }
+]

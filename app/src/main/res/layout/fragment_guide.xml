@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#05070D">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="#E8F0FE"
+            android:contentDescription="뒤로가기"
+            android:layout_marginBottom="8dp" />
+
+        <!-- 관람시간 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#0E1320"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HOURS"
+                android:textColor="#60A5FA"
+                android:textSize="9sp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.15" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="화–일  09:00 – 18:00"
+                android:textColor="#E6FFFFFF"
+                android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="매주 월요일 / 1월 1일 휴관"
+                android:textColor="#99C8E0FF"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- 입장료 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#0E1320"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADMISSION"
+                android:textColor="#60A5FA"
+                android:textSize="9sp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.15" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="상설전시  무료"
+                android:textColor="#E6FFFFFF"
+                android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="특별전시  성인 5,000원 / 청소년 3,000원"
+                android:textColor="#99C8E0FF"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- 오시는 길 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#0E1320"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LOCATION"
+                android:textColor="#60A5FA"
+                android:textSize="9sp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.15" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="부산광역시 해운대구 APEC로 55"
+                android:textColor="#E6FFFFFF"
+                android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="지하철 2호선 벡스코역 1번 출구 도보 5분"
+                android:textColor="#99C8E0FF"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- 이용규칙 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#0E1320"
+            android:padding="16dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RULES"
+                android:textColor="#60A5FA"
+                android:textSize="9sp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.15" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="· 전시실 내 음식물 반입 금지\n· 플래시 촬영 금지\n· 전시 작품 접촉 금지\n· 큰 소음 자제 요청"
+                android:textColor="#99C8E0FF"
+                android:textSize="13sp"
+                android:lineSpacingMultiplier="1.7" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
