@@ -4,7 +4,7 @@
 
 <br>
 
-![ArtBusan 메인 화면](readme_main_img/main_img.png)
+![ArtBusan 메인 화면](readme_main_img/main.png)
 
 <br>
 
