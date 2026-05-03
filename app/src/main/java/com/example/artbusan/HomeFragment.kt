@@ -1,11 +1,11 @@
 package com.example.artbusan
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<View>(R.id.btnArRun).setOnClickListener {
-            Toast.makeText(requireContext(), "AR 실행", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(requireContext(), ArViewerActivity::class.java))
         }
 
         adapter = ArtworkAdapter { museum ->
@@ -55,7 +55,6 @@ class HomeFragment : Fragment() {
             adapter = this@HomeFragment.adapter
         }
 
-        // 칩 — id와 카테고리 문자열 매핑 (null = 전체)
         val chipDefs: List<Pair<Int, String?>> = listOf(
             R.id.chipAll to null,
             R.id.chipHaeundae to "해운대구",
@@ -83,7 +82,6 @@ class HomeFragment : Fragment() {
             adapter.submitList(list)
         }
 
-        // 초기 전체 로드
         viewModel.load()
         selectChip(view.findViewById(R.id.chipAll))
     }

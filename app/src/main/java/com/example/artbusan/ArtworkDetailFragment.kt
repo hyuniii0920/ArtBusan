@@ -1,11 +1,11 @@
 package com.example.artbusan
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -34,20 +34,26 @@ class ArtworkDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val museumId = arguments?.getInt("id") ?: -1
+        val title = arguments?.getString("title") ?: ""
+        val category = arguments?.getString("category") ?: ""
+        val location = arguments?.getString("location") ?: ""
+
         view.findViewById<View>(R.id.btnBack).setOnClickListener {
             findNavController().popBackStack()
         }
 
         view.findViewById<View>(R.id.btnDetailAr).setOnClickListener {
-            Toast.makeText(requireContext(), "AR 실행", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), ArViewerActivity::class.java).apply {
+                putExtra(ArViewerActivity.EXTRA_MUSEUM_ID, museumId)
+                putExtra(ArViewerActivity.EXTRA_TITLE, title)
+                putExtra(ArViewerActivity.EXTRA_CATEGORY, category)
+                putExtra(ArViewerActivity.EXTRA_LOCATION, location)
+            }
+            startActivity(intent)
         }
 
-        val museumId = arguments?.getInt("id") ?: -1
         if (museumId == -1) {
-            // 이전 방식 호환: title 기반 기본값 표시
-            val title = arguments?.getString("title") ?: ""
-            val category = arguments?.getString("category") ?: ""
-            val location = arguments?.getString("location") ?: ""
             view.findViewById<TextView>(R.id.tvDetailTitle).text = title
             view.findViewById<TextView>(R.id.tvDetailCategory).text = translateCategory(requireContext(), category)
             view.findViewById<TextView>(R.id.tvDetailLocation).text = location

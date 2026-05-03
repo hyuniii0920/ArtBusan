@@ -19,6 +19,7 @@ class MuseumRepository(private val dao: MuseumDao, private val context: Context)
     }
 
     suspend fun getById(id: Int): Museum? = withContext(Dispatchers.IO) {
+        seedIfEmpty()
         dao.getById(id)
     }
 
