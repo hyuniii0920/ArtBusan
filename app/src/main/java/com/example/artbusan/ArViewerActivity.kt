@@ -83,6 +83,7 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
+        AnalyticsTracker.logCameraPermissionResult(this, granted)
         if (granted) {
             startCameraPreview()
         } else {
@@ -102,6 +103,7 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         setupSheet()
         setupActions()
         bindInitialUi()
+        logOpenEvents()
 
         tts = TextToSpeech(this, this)
     }
@@ -172,6 +174,7 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private fun setupActions() {
         btnScanQr.setOnClickListener {
+            AnalyticsTracker.logQrScanStart(this, "initial")
             currentArtwork = null
             lastScannedValue = null
             bottomSheet.isVisible = false
@@ -182,6 +185,7 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             tvArHint.text = "카메라를 QR 코드에 맞추면 하단에 작품 설명이 바로 나타납니다."
         }
         btnRescan.setOnClickListener {
+            AnalyticsTracker.logQrScanStart(this, "rescan")
             currentArtwork = null
             lastScannedValue = null
             bottomSheet.isVisible = false
@@ -192,7 +196,13 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             tvArHint.text = "다른 QR을 계속 스캔할 수 있습니다."
         }
         btnSeeMore.setOnClickListener {
-            updateSheetExpanded(!isDetailExpanded)
+            val nextExpanded = !isDetailExpanded
+            AnalyticsTracker.logArtworkSheetToggle(
+                this,
+                if (nextExpanded) "expanded" else "collapsed",
+                currentArtwork?.id
+            )
+            updateSheetExpanded(nextExpanded)
         }
         btnTts.setOnClickListener { speakDetailDescription() }
         btnArMode.setOnClickListener { enterArMode() }
@@ -274,11 +284,13 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         val artworkId = parseArtworkId(rawValue)
         if (artworkId == null) {
+            AnalyticsTracker.logQrScanResult(this, "invalid")
             tvStatus.text = "INVALID QR"
             tvArHint.text = "지원 형식: artar://work/102"
             return
         }
 
+        AnalyticsTracker.logQrScanResult(this, "valid", artworkId)
         lastScannedValue = rawValue
         scanningEnabled = false
         loadArtwork(artworkId)
@@ -292,9 +304,11 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             runCatching {
                 artworkRepository.getArtwork(artworkId)
             }.onSuccess { artwork ->
+                AnalyticsTracker.logArtworkLoadResult(this@ArViewerActivity, "success", artworkId)
                 currentArtwork = artwork
                 bindArtwork(artwork)
             }.onFailure {
+                AnalyticsTracker.logArtworkLoadResult(this@ArViewerActivity, "failure", artworkId)
                 tvStatus.text = "LOAD FAILED"
                 tvArHint.text = "작품 정보를 가져오지 못했습니다. 다시 스캔해 주세요."
                 Toast.makeText(this@ArViewerActivity, "작품 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
@@ -334,6 +348,7 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
 
         tts?.stop()
+        AnalyticsTracker.logTtsPlay(this, artwork.id)
         tts?.speak(artwork.detailDescription, TextToSpeech.QUEUE_FLUSH, null, "artar-detail")
     }
 
@@ -343,6 +358,7 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             return
         }
 
+        AnalyticsTracker.logArModeStart(this, artwork.id)
         updateSheetExpanded(false)
         tvArModeBadge.isVisible = true
         tvArModeBadge.text = "AR MODE"
@@ -384,6 +400,22 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             return it.groupValues[1].toIntOrNull()
         }
         return rawValue.toIntOrNull()
+    }
+
+    private fun logOpenEvents() {
+        val museumId = intent.getIntExtra(EXTRA_MUSEUM_ID, -1).takeIf { it != -1 }
+        val category = intent.getStringExtra(EXTRA_CATEGORY)
+        val location = intent.getStringExtra(EXTRA_LOCATION)
+        val entryPoint = if (museumId == null) "home" else "artwork_detail"
+
+        AnalyticsTracker.logScreenView(this, "ar_viewer", "ArViewerActivity")
+        AnalyticsTracker.logArViewerOpen(
+            context = this,
+            entryPoint = entryPoint,
+            museumId = museumId,
+            category = category,
+            district = location
+        )
     }
 
     private fun hasCameraPermission(): Boolean {

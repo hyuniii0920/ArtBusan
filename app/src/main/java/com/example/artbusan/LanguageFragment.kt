@@ -83,6 +83,8 @@ class LanguageFragment : Fragment() {
             }
             if (code == saved) return@setOnCheckedChangeListener
 
+            AnalyticsTracker.logLanguageChange(requireContext(), saved, code)
+
             tvSelected.text = langLabels[code]
             tvNote.text = langNotes[code]
 
