@@ -17,7 +17,13 @@ data class ArtworkResponse(
     @SerializedName("image_url")
     val imageUrl: String? = null,
     @SerializedName("ar_asset_url")
-    val arAssetUrl: String? = null
+    val arAssetUrl: String? = null,
+    @SerializedName("marker_image_url")
+    val markerImageUrl: String? = null,
+    @SerializedName("marker_width_meters")
+    val markerWidthMeters: Float? = null,
+    @SerializedName("media_url")
+    val mediaUrl: String? = null
 )
 
 fun ArtworkResponse.toArtworkExperience(): ArtworkExperience {
@@ -31,6 +37,9 @@ fun ArtworkResponse.toArtworkExperience(): ArtworkExperience {
         summaryDescription = summary,
         detailDescription = detail,
         imageUrl = imageUrl.orEmpty(),
-        arAssetUrl = arAssetUrl
+        arAssetUrl = arAssetUrl,
+        markerImageUrl = markerImageUrl,
+        markerWidthMeters = markerWidthMeters,
+        mediaUrl = mediaUrl
     )
 }

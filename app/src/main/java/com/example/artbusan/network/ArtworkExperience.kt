@@ -7,5 +7,8 @@ data class ArtworkExperience(
     val summaryDescription: String,
     val detailDescription: String,
     val imageUrl: String,
-    val arAssetUrl: String?
+    val arAssetUrl: String?,
+    val markerImageUrl: String? = null,
+    val markerWidthMeters: Float? = null,
+    val mediaUrl: String? = null
 )

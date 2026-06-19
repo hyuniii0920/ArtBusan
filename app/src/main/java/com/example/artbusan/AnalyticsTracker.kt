@@ -15,6 +15,7 @@ object AnalyticsTracker {
     private const val PARAM_GRANTED = "granted"
     private const val PARAM_MUSEUM_ID = "museum_id"
     private const val PARAM_PREVIOUS_LANGUAGE = "previous_language"
+    private const val PARAM_REASON = "reason"
     private const val PARAM_RESULT = "result"
     private const val PARAM_SELECTED_LANGUAGE = "selected_language"
     private const val PARAM_SOURCE = "source"
@@ -22,7 +23,12 @@ object AnalyticsTracker {
     private const val PARAM_TARGET = "target"
 
     private const val EVENT_AR_MODE_START = "ar_mode_start"
+    private const val EVENT_AR_MARKER_DETECTED = "ar_marker_detected"
+    private const val EVENT_AR_MARKER_LOST = "ar_marker_lost"
+    private const val EVENT_AR_MARKER_SCAN_START = "ar_marker_scan_start"
+    private const val EVENT_AR_QR_FALLBACK_OPEN = "ar_qr_fallback_open"
     private const val EVENT_AR_VIEWER_OPEN = "ar_viewer_open"
+    private const val EVENT_ARCORE_AVAILABILITY = "arcore_availability"
     private const val EVENT_ARTWORK_LOAD_RESULT = "artwork_load_result"
     private const val EVENT_ARTWORK_SHEET_TOGGLE = "artwork_sheet_toggle"
     private const val EVENT_CAMERA_PERMISSION_RESULT = "camera_permission_result"
@@ -36,11 +42,11 @@ object AnalyticsTracker {
     private const val EVENT_TTS_PLAY = "tts_play"
 
     fun setPreferredLanguage(context: Context, language: String) {
-        analytics(context).setUserProperty(USER_PROPERTY_PREFERRED_LANGUAGE, language)
+        analyticsOrNull(context)?.setUserProperty(USER_PROPERTY_PREFERRED_LANGUAGE, language)
     }
 
     fun logScreenView(context: Context, screenName: String, screenClass: String) {
-        analytics(context).logEvent(
+        analyticsOrNull(context)?.logEvent(
             FirebaseAnalytics.Event.SCREEN_VIEW,
             bundleOf(
                 FirebaseAnalytics.Param.SCREEN_NAME to screenName,
@@ -110,6 +116,26 @@ object AnalyticsTracker {
         log(context, EVENT_QR_SCAN_RESULT, PARAM_RESULT to result, PARAM_ARTWORK_ID to artworkId)
     }
 
+    fun logArCoreAvailability(context: Context, result: String) {
+        log(context, EVENT_ARCORE_AVAILABILITY, PARAM_RESULT to result)
+    }
+
+    fun logArMarkerScanStart(context: Context, source: String) {
+        log(context, EVENT_AR_MARKER_SCAN_START, PARAM_SOURCE to source)
+    }
+
+    fun logArMarkerDetected(context: Context, artworkId: Int, source: String = "augmented_image") {
+        log(context, EVENT_AR_MARKER_DETECTED, PARAM_ARTWORK_ID to artworkId, PARAM_SOURCE to source)
+    }
+
+    fun logArMarkerLost(context: Context, artworkId: Int) {
+        log(context, EVENT_AR_MARKER_LOST, PARAM_ARTWORK_ID to artworkId)
+    }
+
+    fun logQrFallbackOpen(context: Context, reason: String) {
+        log(context, EVENT_AR_QR_FALLBACK_OPEN, PARAM_REASON to reason)
+    }
+
     fun logArtworkLoadResult(context: Context, result: String, artworkId: Int) {
         log(context, EVENT_ARTWORK_LOAD_RESULT, PARAM_RESULT to result, PARAM_ARTWORK_ID to artworkId)
     }
@@ -127,7 +153,7 @@ object AnalyticsTracker {
     }
 
     private fun log(context: Context, eventName: String, vararg params: Pair<String, Any?>) {
-        analytics(context).logEvent(eventName, bundleOf(*params))
+        analyticsOrNull(context)?.logEvent(eventName, bundleOf(*params))
     }
 
     private fun bundleOf(vararg params: Pair<String, Any?>): Bundle {
@@ -146,7 +172,16 @@ object AnalyticsTracker {
         }
     }
 
-    private fun analytics(context: Context): FirebaseAnalytics {
-        return FirebaseAnalytics.getInstance(context.applicationContext)
+    private fun analyticsOrNull(context: Context): FirebaseAnalytics? {
+        val appContext = context.applicationContext
+        val googleAppId = appContext.resources.getIdentifier(
+            "google_app_id",
+            "string",
+            appContext.packageName
+        )
+        if (googleAppId == 0) {
+            return null
+        }
+        return runCatching { FirebaseAnalytics.getInstance(appContext) }.getOrNull()
     }
 }
