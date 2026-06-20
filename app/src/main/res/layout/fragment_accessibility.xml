@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#05070D">
+    android:background="@color/bg_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
-            android:tint="#E8F0FE"
+            android:tint="@color/text_primary"
             android:contentDescription="뒤로가기"
             android:layout_marginBottom="8dp" />
 
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_accessibility"
-            android:textColor="#60A5FA"
+            android:textColor="@color/text_secondary"
             android:textSize="9sp"
             android:fontFamily="monospace"
             android:letterSpacing="0.15"
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
-            android:background="#0E1320"
+            android:background="@color/bg_surface"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:gravity="center_vertical"
@@ -46,15 +46,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/accessibility_large_text"
-                android:textColor="#E8F0FE"
+                android:textColor="@color/text_primary"
                 android:textSize="15sp" />
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchLargeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:thumbTint="#2563EB"
-                android:trackTint="#1A2540" />
+                android:thumbTint="@color/primary_teal"
+                android:trackTint="@color/divider" />
         </LinearLayout>
 
         <!-- 고대비 모드 -->
@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
-            android:background="#0E1320"
+            android:background="@color/bg_surface"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:gravity="center_vertical"
@@ -72,15 +72,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/accessibility_high_contrast"
-                android:textColor="#E8F0FE"
+                android:textColor="@color/text_primary"
                 android:textSize="15sp" />
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchHighContrast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:thumbTint="#2563EB"
-                android:trackTint="#1A2540" />
+                android:thumbTint="@color/primary_teal"
+                android:trackTint="@color/divider" />
         </LinearLayout>
 
         <!-- 진동 피드백 -->
@@ -88,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
-            android:background="#0E1320"
+            android:background="@color/bg_surface"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:gravity="center_vertical">
@@ -97,15 +97,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/accessibility_vibration"
-                android:textColor="#E8F0FE"
+                android:textColor="@color/text_primary"
                 android:textSize="15sp" />
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchVibration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:thumbTint="#2563EB"
-                android:trackTint="#1A2540" />
+                android:thumbTint="@color/primary_teal"
+                android:trackTint="@color/divider" />
         </LinearLayout>
 
     </LinearLayout>

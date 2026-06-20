@@ -13,7 +13,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#05070D">
+        android:background="@color/bg_content">
 
         <!-- Top App Bar: 다크 + 하단 네온 라인 -->
         <LinearLayout
@@ -91,7 +91,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_add"
-                android:tint="#60A5FA" />
+                android:tint="@color/primary_teal_dark" />
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -102,7 +102,7 @@
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:background="#0E1320"
+        android:background="@color/bg_surface"
         android:orientation="vertical">
 
         <!-- Drawer Header: 다크 그라디언트 + 네온 하단선 -->
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="@string/drawer_subtitle"
-                android:textColor="#60A5FA"
+                android:textColor="@color/text_secondary"
                 android:textSize="12sp"
                 android:fontFamily="monospace"
                 android:letterSpacing="0.08" />
@@ -184,7 +184,7 @@
             android:paddingStart="20dp"
             android:paddingBottom="24dp"
             android:text="v1.0.0"
-            android:textColor="#1A2540"
+            android:textColor="#BDBDBD"
             android:textSize="11sp"
             android:fontFamily="monospace" />
 

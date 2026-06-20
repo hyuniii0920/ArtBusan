@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#05070D">
+    android:background="@color/bg_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
-            android:tint="#E8F0FE"
+            android:tint="@color/text_primary"
             android:contentDescription="뒤로가기"
             android:layout_marginBottom="8dp" />
 
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            app:cardBackgroundColor="#0E1320"
+            app:cardBackgroundColor="@color/bg_surface"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
             xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/notice1_title"
-                    android:textColor="#E8F0FE"
+                    android:textColor="@color/text_primary"
                     android:textSize="15sp"
                     android:textStyle="bold" />
                 <TextView
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/notice1_date"
-                    android:textColor="#60A5FA"
+                    android:textColor="@color/text_secondary"
                     android:textSize="11sp"
                     android:fontFamily="monospace" />
                 <TextView
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/notice1_content"
-                    android:textColor="#99C8E0FF"
+                    android:textColor="@color/text_secondary"
                     android:textSize="13sp"
                     android:lineSpacingMultiplier="1.5" />
             </LinearLayout>
@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            app:cardBackgroundColor="#0E1320"
+            app:cardBackgroundColor="@color/bg_surface"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
             xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/notice2_title"
-                    android:textColor="#E8F0FE"
+                    android:textColor="@color/text_primary"
                     android:textSize="15sp"
                     android:textStyle="bold" />
                 <TextView
@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/notice2_date"
-                    android:textColor="#60A5FA"
+                    android:textColor="@color/text_secondary"
                     android:textSize="11sp"
                     android:fontFamily="monospace" />
                 <TextView
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/notice2_content"
-                    android:textColor="#99C8E0FF"
+                    android:textColor="@color/text_secondary"
                     android:textSize="13sp"
                     android:lineSpacingMultiplier="1.5" />
             </LinearLayout>
@@ -106,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            app:cardBackgroundColor="#0E1320"
+            app:cardBackgroundColor="@color/bg_surface"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
             xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -119,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/notice3_title"
-                    android:textColor="#E8F0FE"
+                    android:textColor="@color/text_primary"
                     android:textSize="15sp"
                     android:textStyle="bold" />
                 <TextView
@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/notice3_date"
-                    android:textColor="#60A5FA"
+                    android:textColor="@color/text_secondary"
                     android:textSize="11sp"
                     android:fontFamily="monospace" />
                 <TextView
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/notice3_content"
-                    android:textColor="#99C8E0FF"
+                    android:textColor="@color/text_secondary"
                     android:textSize="13sp"
                     android:lineSpacingMultiplier="1.5" />
             </LinearLayout>
@@ -145,7 +145,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="#0E1320"
+            app:cardBackgroundColor="@color/bg_surface"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
             xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -158,7 +158,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/notice4_title"
-                    android:textColor="#E8F0FE"
+                    android:textColor="@color/text_primary"
                     android:textSize="15sp"
                     android:textStyle="bold" />
                 <TextView
@@ -166,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/notice4_date"
-                    android:textColor="#60A5FA"
+                    android:textColor="@color/text_secondary"
                     android:textSize="11sp"
                     android:fontFamily="monospace" />
                 <TextView
@@ -174,7 +174,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/notice4_content"
-                    android:textColor="#99C8E0FF"
+                    android:textColor="@color/text_secondary"
                     android:textSize="13sp"
                     android:lineSpacingMultiplier="1.5" />
             </LinearLayout>

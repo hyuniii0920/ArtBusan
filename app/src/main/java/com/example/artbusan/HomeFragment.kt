@@ -92,6 +92,6 @@ class HomeFragment : Fragment() {
             chip.setTextColor(resources.getColor(R.color.text_secondary, null))
         }
         selected.setBackgroundResource(R.drawable.bg_tab_selected)
-        selected.setTextColor(resources.getColor(android.R.color.white, null))
+        selected.setTextColor(resources.getColor(R.color.text_primary, null))
     }
 }

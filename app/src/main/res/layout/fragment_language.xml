@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#05070D">
+    android:background="@color/bg_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
-            android:tint="#E8F0FE"
+            android:tint="@color/text_primary"
             android:contentDescription="뒤로가기"
             android:layout_marginBottom="8dp" />
 
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_language"
-            android:textColor="#60A5FA"
+            android:textColor="@color/text_secondary"
             android:textSize="9sp"
             android:fontFamily="monospace"
             android:letterSpacing="0.15"
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="한국어"
-            android:textColor="#E8F0FE"
+            android:textColor="@color/text_primary"
             android:textSize="22sp"
             android:textStyle="bold"
             android:layout_marginBottom="20dp" />
@@ -52,49 +52,49 @@
                 android:id="@+id/radioKorean"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:background="#0E1320"
+                android:background="@color/bg_surface"
                 android:paddingStart="16dp"
                 android:text="한국어"
-                android:textColor="#E8F0FE"
+                android:textColor="@color/text_primary"
                 android:textSize="15sp"
                 android:checked="true"
-                android:buttonTint="#2563EB"
+                android:buttonTint="@color/primary_teal"
                 android:layout_marginBottom="8dp" />
 
             <RadioButton
                 android:id="@+id/radioEnglish"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:background="#0E1320"
+                android:background="@color/bg_surface"
                 android:paddingStart="16dp"
                 android:text="English"
-                android:textColor="#E8F0FE"
+                android:textColor="@color/text_primary"
                 android:textSize="15sp"
-                android:buttonTint="#2563EB"
+                android:buttonTint="@color/primary_teal"
                 android:layout_marginBottom="8dp" />
 
             <RadioButton
                 android:id="@+id/radioJapanese"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:background="#0E1320"
+                android:background="@color/bg_surface"
                 android:paddingStart="16dp"
                 android:text="日本語"
-                android:textColor="#E8F0FE"
+                android:textColor="@color/text_primary"
                 android:textSize="15sp"
-                android:buttonTint="#2563EB"
+                android:buttonTint="@color/primary_teal"
                 android:layout_marginBottom="8dp" />
 
             <RadioButton
                 android:id="@+id/radioChinese"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:background="#0E1320"
+                android:background="@color/bg_surface"
                 android:paddingStart="16dp"
                 android:text="中文"
-                android:textColor="#E8F0FE"
+                android:textColor="@color/text_primary"
                 android:textSize="15sp"
-                android:buttonTint="#2563EB" />
+                android:buttonTint="@color/primary_teal" />
 
         </RadioGroup>
 
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/language_note"
-            android:textColor="#60A5FA"
+            android:textColor="@color/text_secondary"
             android:textSize="12sp"
             android:layout_marginTop="16dp" />
 

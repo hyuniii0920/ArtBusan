@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#05070D">
+    android:background="@color/bg_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
-            android:tint="#E8F0FE"
+            android:tint="@color/text_primary"
             android:contentDescription="뒤로가기"
             android:layout_marginBottom="8dp" />
 
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_settings"
-            android:textColor="#60A5FA"
+            android:textColor="@color/text_secondary"
             android:textSize="9sp"
             android:fontFamily="monospace"
             android:letterSpacing="0.15"
@@ -39,10 +39,10 @@
             android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:text="@string/settings_notification"
-            android:textColor="#E8F0FE"
+            android:textColor="@color/text_primary"
             android:textSize="15sp" />
 
-        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="#1A2540" />
+        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/divider" />
 
         <TextView
             android:id="@+id/settingAppInfo"
@@ -52,10 +52,10 @@
             android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:text="@string/settings_app_info"
-            android:textColor="#E8F0FE"
+            android:textColor="@color/text_primary"
             android:textSize="15sp" />
 
-        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="#1A2540" />
+        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/divider" />
 
         <LinearLayout
             android:id="@+id/settingVersion"
@@ -71,13 +71,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/settings_version"
-                android:textColor="#E8F0FE"
+                android:textColor="@color/text_primary"
                 android:textSize="15sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_version_value"
-                android:textColor="#60A5FA"
+                android:textColor="@color/text_secondary"
                 android:textSize="13sp"
                 android:fontFamily="monospace" />
         </LinearLayout>

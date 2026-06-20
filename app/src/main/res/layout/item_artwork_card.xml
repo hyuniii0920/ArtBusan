@@ -7,7 +7,7 @@
     android:layout_margin="4dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="0dp"
-    app:cardBackgroundColor="#0E1320">
+    app:cardBackgroundColor="@color/bg_surface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:background="#0A1628">
+            android:background="@color/light_teal">
 
             <!-- 네온 글로우 대각선 -->
             <View
@@ -54,7 +54,7 @@
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
                 android:text="별칭"
-                android:textColor="@color/text_secondary"
+                android:textColor="@color/text_primary"
                 android:textSize="10sp"
                 android:layout_marginBottom="4dp" />
 
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="상세정보"
-                android:textColor="#3860A5FA"
+                android:textColor="@color/text_secondary"
                 android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>
