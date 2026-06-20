@@ -42,6 +42,12 @@ class HomeFragment : Fragment() {
         }
 
         adapter = ArtworkAdapter { museum ->
+            AnalyticsTracker.logMuseumSelect(
+                requireContext(),
+                museum.id,
+                museum.category,
+                museum.location
+            )
             val bundle = bundleOf(
                 "id" to museum.id,
                 "title" to museum.title,
@@ -74,6 +80,7 @@ class HomeFragment : Fragment() {
             chips.add(chip)
             chip.setOnClickListener {
                 selectChip(chip)
+                AnalyticsTracker.logMuseumFilterSelect(requireContext(), category ?: "all")
                 viewModel.load(category)
             }
         }

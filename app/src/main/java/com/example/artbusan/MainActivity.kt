@@ -42,12 +42,20 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        AnalyticsTracker.setPreferredLanguage(this, getSelectedLanguage())
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            screenNameForDestination(destination.id)?.let { screenName ->
+                AnalyticsTracker.logScreenView(this, screenName, "MainActivity")
+            }
+        }
+
         findViewById<android.widget.ImageButton>(R.id.btnMenu).setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.END)
         }
         findViewById<android.widget.ImageButton>(R.id.btnSearch).setOnClickListener { }
 
         findViewById<android.view.View>(R.id.fabCreate).setOnClickListener {
+            AnalyticsTracker.logTourCreateClick(this, "fab")
             Toast.makeText(this, "투어 제작 (준비 중)", Toast.LENGTH_SHORT).show()
         }
 
@@ -59,12 +67,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         drawer.findViewById<TextView>(R.id.menuNotice).setOnClickListener {
+            AnalyticsTracker.logDrawerMenuSelect(this, "notice")
             navigateAndClose(R.id.noticeFragment)
         }
         drawer.findViewById<TextView>(R.id.menuLanguage).setOnClickListener {
+            AnalyticsTracker.logDrawerMenuSelect(this, "language")
             navigateAndClose(R.id.languageFragment)
         }
         drawer.findViewById<TextView>(R.id.menuSettings).setOnClickListener {
+            AnalyticsTracker.logDrawerMenuSelect(this, "settings")
             navigateAndClose(R.id.settingsFragment)
         }
     }
@@ -75,5 +86,26 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    private fun getSelectedLanguage(): String {
+        val prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        return prefs.getString(KEY_LANGUAGE, "ko") ?: "ko"
+    }
+
+    private fun screenNameForDestination(destinationId: Int): String? {
+        return when (destinationId) {
+            R.id.homeFragment -> "home"
+            R.id.artworkDetailFragment -> "artwork_detail"
+            R.id.noticeFragment -> "notice"
+            R.id.languageFragment -> "language"
+            R.id.settingsFragment -> "settings"
+            else -> null
+        }
+    }
+
+    companion object {
+        private const val PREFS = "artbusan_prefs"
+        private const val KEY_LANGUAGE = "selected_language"
     }
 }
