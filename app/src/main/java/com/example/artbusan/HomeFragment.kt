@@ -52,7 +52,8 @@ class HomeFragment : Fragment() {
                 "id" to museum.id,
                 "title" to museum.title,
                 "category" to museum.category,
-                "location" to museum.location
+                "location" to museum.location,
+                "imageUrl" to museum.imageUrl
             )
             findNavController().navigate(R.id.action_home_to_detail, bundle)
         }
