@@ -8,6 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.opengl.GLSurfaceView
+            android:id="@+id/glArScene"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
         <androidx.camera.view.PreviewView
             android:id="@+id/previewCamera"
             android:layout_width="match_parent"
@@ -50,7 +56,7 @@
                 android:paddingTop="7dp"
                 android:paddingEnd="12dp"
                 android:paddingBottom="7dp"
-                android:text="QR READY"
+                android:text="@string/ar_status_preparing"
                 android:textColor="#E8F0FE"
                 android:textSize="11sp"
                 android:textStyle="bold" />
@@ -78,7 +84,7 @@
                 android:paddingTop="8dp"
                 android:paddingEnd="14dp"
                 android:paddingBottom="8dp"
-                android:text="AR MODE"
+                android:text="@string/ar_status_marker_scan"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:textStyle="bold"
@@ -90,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:lineSpacingMultiplier="1.4"
-                android:text="AR 실행 후 먼저 QR 스캔 안내를 확인하고, 스캔 시작을 누르면 카메라 스캔 화면으로 전환됩니다."
+                android:text="@string/ar_hint_preparing"
                 android:textColor="#E8F0FE"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -102,7 +108,7 @@
                 android:layout_marginTop="14dp"
                 android:gravity="center"
                 android:lineSpacingMultiplier="1.4"
-                android:text="스캔 전에는 QR 안내가 보이고, 스캔 시작 후에는 카메라 스캔 화면으로 전환됩니다."
+                android:text="@string/ar_guide_marker_scan"
                 android:textColor="#B7CCE8"
                 android:textSize="13sp" />
 
@@ -116,7 +122,7 @@
                 android:minWidth="170dp"
                 android:paddingStart="22dp"
                 android:paddingEnd="22dp"
-                android:text="QR 스캔 시작"
+                android:text="@string/ar_button_qr_fallback"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -157,7 +163,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="작품을 스캔해 주세요"
+            android:text="@string/ar_initial_title"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -169,7 +175,7 @@
             android:layout_marginTop="10dp"
             android:lineSpacingMultiplier="1.3"
             android:maxLines="3"
-            android:text="artar://work/1 같은 QR을 읽으면 하단 설명창과 상세보기를 확인할 수 있습니다."
+            android:text="@string/ar_initial_summary"
             android:textColor="#C9D7EA"
             android:textSize="14sp" />
 
@@ -187,7 +193,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_detail_ar_btn"
                 android:gravity="center"
-                android:text="상세보기"
+                android:text="@string/ar_button_detail"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -202,7 +208,7 @@
                 android:minWidth="92dp"
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
-                android:text="재스캔"
+                android:text="@string/ar_button_rescan"
                 android:textColor="#D9E7FF"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -254,7 +260,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_detail_btn_outline"
                     android:gravity="center"
-                    android:text="TTS 읽어주기"
+                    android:text="@string/ar_button_tts"
                     android:textColor="#D9E7FF"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -267,7 +273,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/bg_detail_ar_btn"
                     android:gravity="center"
-                    android:text="AR로 보기"
+                    android:text="@string/ar_button_ar_mode"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     android:textStyle="bold" />

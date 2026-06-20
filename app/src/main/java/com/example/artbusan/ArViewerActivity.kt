@@ -2,6 +2,8 @@ package com.example.artbusan
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.Surface
@@ -20,8 +22,23 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.example.artbusan.ar.ArCoreImageRenderer
+import com.example.artbusan.ar.ArMarker
+import com.example.artbusan.ar.ArMarkerRegistry
+import com.example.artbusan.ar.ArPayloadParser
+import com.example.artbusan.ar.MockArtworkRegistry
 import com.example.artbusan.network.ArtworkExperience
 import com.example.artbusan.network.ArtworkExperienceRepository
+import com.google.ar.core.ArCoreApk
+import com.google.ar.core.AugmentedImageDatabase
+import com.google.ar.core.Config
+import com.google.ar.core.Session
+import com.google.ar.core.exceptions.CameraNotAvailableException
+import com.google.ar.core.exceptions.UnavailableApkTooOldException
+import com.google.ar.core.exceptions.UnavailableArcoreNotInstalledException
+import com.google.ar.core.exceptions.UnavailableDeviceNotCompatibleException
+import com.google.ar.core.exceptions.UnavailableSdkTooOldException
+import com.google.ar.core.exceptions.UnavailableUserDeclinedInstallationException
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
@@ -33,7 +50,23 @@ import java.util.concurrent.Executors
 
 class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
+    private enum class ViewerState {
+        Preparing,
+        MarkerScanning,
+        QrFallbackScanning,
+        ArtworkLoaded,
+        ArUnavailable,
+        PermissionDenied
+    }
+
+    private enum class LoadOrigin {
+        Marker,
+        Qr
+    }
+
     private lateinit var artworkRepository: ArtworkExperienceRepository
+    private lateinit var glSurfaceView: GLSurfaceView
+    private lateinit var arRenderer: ArCoreImageRenderer
     private lateinit var previewView: PreviewView
     private lateinit var cameraExecutor: ExecutorService
 
@@ -57,8 +90,6 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var scanFrame: View
     private lateinit var preScanGuideGroup: View
 
-    private var isDetailExpanded = false
-
     private val scanner by lazy {
         BarcodeScanning.getClient(
             BarcodeScannerOptions.Builder()
@@ -69,26 +100,30 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private val cameraProviderFuture by lazy { ProcessCameraProvider.getInstance(this) }
 
+    private var currentState = ViewerState.Preparing
+    private var currentLoadOrigin: LoadOrigin? = null
+    private var arSession: Session? = null
+    private var userRequestedArInstall = true
+    private var isDetailExpanded = false
+    private var lastScannedValue: String? = null
+    private var tts: TextToSpeech? = null
+    private var isTtsReady = false
+    private var currentArtwork: ArtworkExperience? = null
+
     @Volatile
     private var scanningEnabled = false
 
     @Volatile
     private var processingScan = false
 
-    private var lastScannedValue: String? = null
-    private var tts: TextToSpeech? = null
-    private var isTtsReady = false
-    private var currentArtwork: ArtworkExperience? = null
-
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         AnalyticsTracker.logCameraPermissionResult(this, granted)
         if (granted) {
-            startCameraPreview()
+            prepareArOrFallback()
         } else {
-            tvStatus.text = "CAMERA BLOCKED"
-            tvArHint.text = "카메라 권한이 필요합니다."
+            setViewerState(ViewerState.PermissionDenied)
         }
     }
 
@@ -100,6 +135,7 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         cameraExecutor = Executors.newSingleThreadExecutor()
 
         bindViews()
+        setupRenderer()
         setupSheet()
         setupActions()
         bindInitialUi()
@@ -110,18 +146,19 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     override fun onResume() {
         super.onResume()
+        glSurfaceView.onResume()
         if (!hasCameraPermission()) {
             permissionLauncher.launch(Manifest.permission.CAMERA)
         } else {
-            startCameraPreview()
+            prepareArOrFallback()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        if (cameraProviderFuture.isDone) {
-            cameraProviderFuture.get().unbindAll()
-        }
+        stopQrCamera()
+        pauseArSession()
+        glSurfaceView.onPause()
     }
 
     override fun onDestroy() {
@@ -129,12 +166,18 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         cameraExecutor.shutdown()
         tts?.stop()
         tts?.shutdown()
+        arSession?.close()
+        arSession = null
         super.onDestroy()
     }
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            val result = tts?.setLanguage(Locale.KOREAN)
+            val preferred = ttsLocaleForCurrentConfiguration()
+            var result = tts?.setLanguage(preferred)
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                result = tts?.setLanguage(Locale.KOREAN)
+            }
             isTtsReady = result != TextToSpeech.LANG_MISSING_DATA &&
                 result != TextToSpeech.LANG_NOT_SUPPORTED
         }
@@ -142,6 +185,7 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private fun bindViews() {
         findViewById<ImageButton>(R.id.btnArBack).setOnClickListener { finish() }
+        glSurfaceView = findViewById(R.id.glArScene)
         previewView = findViewById(R.id.previewCamera)
         previewView.implementationMode = PreviewView.ImplementationMode.COMPATIBLE
         previewView.scaleType = PreviewView.ScaleType.FILL_CENTER
@@ -166,6 +210,31 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         preScanGuideGroup = findViewById(R.id.preScanGuideGroup)
     }
 
+    private fun setupRenderer() {
+        arRenderer = ArCoreImageRenderer(
+            displayRotationProvider = {
+                previewView.display?.rotation ?: Surface.ROTATION_0
+            },
+            listener = object : ArCoreImageRenderer.Listener {
+                override fun onMarkerDetected(marker: ArMarker) {
+                    runOnUiThread { handleMarkerDetected(marker) }
+                }
+
+                override fun onMarkerTrackingLost(marker: ArMarker) {
+                    runOnUiThread { handleMarkerTrackingLost(marker) }
+                }
+
+                override fun onArFrameError(error: Throwable) {
+                    runOnUiThread { handleArFrameError(error) }
+                }
+            }
+        )
+        glSurfaceView.setEGLContextClientVersion(2)
+        glSurfaceView.preserveEGLContextOnPause = true
+        glSurfaceView.setRenderer(arRenderer)
+        glSurfaceView.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+    }
+
     private fun setupSheet() {
         bottomSheet.isVisible = false
         detailGroup.isVisible = false
@@ -174,26 +243,19 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private fun setupActions() {
         btnScanQr.setOnClickListener {
-            AnalyticsTracker.logQrScanStart(this, "initial")
-            currentArtwork = null
-            lastScannedValue = null
-            bottomSheet.isVisible = false
-            updateSheetExpanded(false)
-            enterScanningMode()
-            scanningEnabled = true
-            tvStatus.text = "SCANNING QR"
-            tvArHint.text = "카메라를 QR 코드에 맞추면 하단에 작품 설명이 바로 나타납니다."
+            AnalyticsTracker.logQrFallbackOpen(this, currentState.name.lowercase(Locale.US))
+            enterQrFallbackScanning("manual")
         }
         btnRescan.setOnClickListener {
-            AnalyticsTracker.logQrScanStart(this, "rescan")
             currentArtwork = null
             lastScannedValue = null
             bottomSheet.isVisible = false
             updateSheetExpanded(false)
-            enterScanningMode()
-            scanningEnabled = true
-            tvStatus.text = "SCANNING QR"
-            tvArHint.text = "다른 QR을 계속 스캔할 수 있습니다."
+            if (arSession != null && currentLoadOrigin != LoadOrigin.Qr) {
+                startMarkerScanning("rescan")
+            } else {
+                enterQrFallbackScanning("rescan")
+            }
         }
         btnSeeMore.setOnClickListener {
             val nextExpanded = !isDetailExpanded
@@ -205,22 +267,147 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             updateSheetExpanded(nextExpanded)
         }
         btnTts.setOnClickListener { speakDetailDescription() }
-        btnArMode.setOnClickListener { enterArMode() }
+        btnArMode.setOnClickListener { focusArMode() }
     }
 
     private fun bindInitialUi() {
-        tvStatus.text = "QR READY"
-        tvArHint.text = "AR 실행 후 먼저 QR 스캔 안내를 확인하고, 스캔 시작을 누르면 카메라 스캔 화면으로 전환됩니다."
-        tvPeekTitle.text = "작품을 스캔해 주세요"
-        tvPeekSummary.text = "artar://work/1 같은 QR을 읽으면 하단 설명창과 상세보기를 확인할 수 있습니다."
+        tvPeekTitle.text = getString(R.string.ar_initial_title)
+        tvPeekSummary.text = getString(R.string.ar_initial_summary)
+        btnScanQr.text = getString(R.string.ar_button_qr_fallback)
+        btnRescan.text = getString(R.string.ar_button_rescan)
+        btnTts.text = getString(R.string.ar_button_tts)
+        btnArMode.text = getString(R.string.ar_button_ar_mode)
         tvArModeBadge.isVisible = false
-        tvArModeGuide.text = "작품을 스캔하면 요약 설명이 먼저 보이고, 상세보기로 전체 설명과 TTS를 확인할 수 있습니다."
         bottomSheet.isVisible = false
         detailGroup.isVisible = false
-        preScanGuideGroup.isVisible = true
-        scanFrame.isVisible = false
         previewView.isVisible = false
+        glSurfaceView.isVisible = false
+        scanFrame.isVisible = false
+        dimOverlay.isVisible = true
         dimOverlay.alpha = 1f
+        setViewerState(ViewerState.Preparing)
+    }
+
+    private fun prepareArOrFallback() {
+        setViewerState(ViewerState.Preparing)
+        stopQrCamera()
+
+        val availability = ArCoreApk.getInstance().checkAvailability(this)
+        AnalyticsTracker.logArCoreAvailability(this, availability.name)
+        if (availability.isTransient) {
+            glSurfaceView.postDelayed({ prepareArOrFallback() }, ARCORE_AVAILABILITY_RETRY_MS)
+            return
+        }
+
+        if (!availability.isSupported) {
+            enterArUnavailableFallback("unsupported")
+            return
+        }
+
+        try {
+            when (ArCoreApk.getInstance().requestInstall(this, userRequestedArInstall)) {
+                ArCoreApk.InstallStatus.INSTALL_REQUESTED -> {
+                    userRequestedArInstall = false
+                    tvStatus.text = getString(R.string.ar_status_preparing)
+                    tvArHint.text = getString(R.string.ar_arcore_install_requested)
+                    return
+                }
+
+                ArCoreApk.InstallStatus.INSTALLED -> {
+                    userRequestedArInstall = false
+                    createSessionIfNeeded()
+                    startMarkerScanning("resume")
+                }
+            }
+        } catch (error: UnavailableUserDeclinedInstallationException) {
+            enterArUnavailableFallback("install_declined")
+        } catch (error: UnavailableDeviceNotCompatibleException) {
+            enterArUnavailableFallback("device_not_compatible")
+        } catch (error: UnavailableArcoreNotInstalledException) {
+            enterArUnavailableFallback("not_installed")
+        } catch (error: UnavailableApkTooOldException) {
+            enterArUnavailableFallback("apk_too_old")
+        } catch (error: UnavailableSdkTooOldException) {
+            enterArUnavailableFallback("sdk_too_old")
+        } catch (error: RuntimeException) {
+            enterArUnavailableFallback("runtime_error")
+        }
+    }
+
+    private fun createSessionIfNeeded() {
+        if (arSession != null) return
+
+        val session = Session(this)
+        val imageDatabase = AugmentedImageDatabase(session)
+        ArMarkerRegistry.all().forEach { marker ->
+            val bitmap = BitmapFactory.decodeResource(resources, marker.markerDrawableRes)
+            if (bitmap != null) {
+                imageDatabase.addImage(marker.name, bitmap, marker.markerWidthMeters)
+                bitmap.recycle()
+            }
+        }
+        val config = Config(session).apply {
+            augmentedImageDatabase = imageDatabase
+            focusMode = Config.FocusMode.AUTO
+        }
+        session.configure(config)
+        arSession = session
+    }
+
+    private fun startMarkerScanning(source: String) {
+        stopQrCamera()
+        val session = arSession ?: run {
+            enterArUnavailableFallback("session_missing")
+            return
+        }
+        currentLoadOrigin = LoadOrigin.Marker
+        currentArtwork = null
+        arRenderer.resetTrackingState()
+
+        try {
+            session.resume()
+        } catch (error: CameraNotAvailableException) {
+            handleArFrameError(error)
+            return
+        }
+
+        arRenderer.session = session
+        glSurfaceView.isVisible = true
+        previewView.isVisible = false
+        scanFrame.isVisible = false
+        dimOverlay.isVisible = true
+        dimOverlay.alpha = 0.14f
+        bottomSheet.isVisible = false
+        preScanGuideGroup.isVisible = true
+        setViewerState(ViewerState.MarkerScanning)
+        AnalyticsTracker.logArMarkerScanStart(this, source)
+    }
+
+    private fun enterArUnavailableFallback(reason: String) {
+        AnalyticsTracker.logQrFallbackOpen(this, reason)
+        setViewerState(ViewerState.ArUnavailable)
+        Toast.makeText(this, getString(R.string.ar_qr_fallback_started), Toast.LENGTH_SHORT).show()
+        enterQrFallbackScanning(reason)
+    }
+
+    private fun enterQrFallbackScanning(source: String) {
+        pauseArSession()
+        currentLoadOrigin = LoadOrigin.Qr
+        currentArtwork = null
+        lastScannedValue = null
+        bottomSheet.isVisible = false
+        updateSheetExpanded(false)
+
+        glSurfaceView.isVisible = false
+        previewView.isVisible = true
+        dimOverlay.isVisible = true
+        dimOverlay.alpha = 0.12f
+        preScanGuideGroup.isVisible = false
+        scanFrame.isVisible = true
+        scanningEnabled = true
+        setViewerState(ViewerState.QrFallbackScanning)
+        AnalyticsTracker.logQrScanStart(this, source)
+        startCameraPreview()
     }
 
     private fun startCameraPreview() {
@@ -273,6 +460,47 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         )
     }
 
+    private fun stopQrCamera() {
+        scanningEnabled = false
+        if (cameraProviderFuture.isDone) {
+            runCatching { cameraProviderFuture.get().unbindAll() }
+        }
+    }
+
+    private fun pauseArSession() {
+        arRenderer.session = null
+        runCatching { arSession?.pause() }
+    }
+
+    private fun handleMarkerDetected(marker: ArMarker) {
+        if (currentState != ViewerState.MarkerScanning && currentState != ViewerState.ArtworkLoaded) return
+
+        AnalyticsTracker.logArMarkerDetected(this, marker.artworkId)
+        currentLoadOrigin = LoadOrigin.Marker
+        loadArtwork(marker.artworkId, LoadOrigin.Marker)
+    }
+
+    private fun handleMarkerTrackingLost(marker: ArMarker) {
+        AnalyticsTracker.logArMarkerLost(this, marker.artworkId)
+        if (currentLoadOrigin == LoadOrigin.Marker) {
+            preScanGuideGroup.isVisible = true
+            tvArModeBadge.isVisible = true
+            tvArModeBadge.text = getString(R.string.ar_status_marker_scan)
+            tvArModeGuide.text = getString(R.string.ar_guide_marker_lost)
+            btnScanQr.text = getString(R.string.ar_button_qr_fallback)
+        }
+    }
+
+    private fun handleArFrameError(error: Throwable) {
+        if (currentState == ViewerState.QrFallbackScanning || currentState == ViewerState.PermissionDenied) return
+
+        val reason = when (error) {
+            is CameraNotAvailableException -> "camera_not_available"
+            else -> "ar_frame_error"
+        }
+        enterArUnavailableFallback(reason)
+    }
+
     private fun handleBarcodeResult(barcodes: List<Barcode>) {
         val rawValue = barcodes.firstNotNullOfOrNull {
             it.rawValue?.trim()?.takeIf(String::isNotBlank)
@@ -282,23 +510,33 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             return
         }
 
-        val artworkId = parseArtworkId(rawValue)
+        val artworkId = ArPayloadParser.parseArtworkId(rawValue)
         if (artworkId == null) {
             AnalyticsTracker.logQrScanResult(this, "invalid")
-            tvStatus.text = "INVALID QR"
-            tvArHint.text = "지원 형식: artar://work/102"
+            lastScannedValue = rawValue
+            tvStatus.text = getString(R.string.ar_status_invalid_qr)
+            tvArHint.text = getString(R.string.ar_hint_invalid_qr)
+            Toast.makeText(this, getString(R.string.ar_hint_invalid_qr), Toast.LENGTH_SHORT).show()
             return
         }
 
         AnalyticsTracker.logQrScanResult(this, "valid", artworkId)
         lastScannedValue = rawValue
         scanningEnabled = false
-        loadArtwork(artworkId)
+        loadArtwork(artworkId, LoadOrigin.Qr)
     }
 
-    private fun loadArtwork(artworkId: Int) {
-        tvStatus.text = "LOADING #$artworkId"
-        tvArHint.text = "작품 정보를 불러오는 중입니다."
+    private fun loadArtwork(artworkId: Int, origin: LoadOrigin) {
+        tvStatus.text = getString(R.string.ar_status_artwork_loaded, artworkId)
+        tvArHint.text = getString(R.string.ar_hint_loading_artwork)
+
+        MockArtworkRegistry.findById(artworkId)?.let { mockArtwork ->
+            AnalyticsTracker.logArtworkLoadResult(this, "mock_success", artworkId)
+            currentArtwork = mockArtwork
+            currentLoadOrigin = origin
+            bindArtwork(mockArtwork)
+            return
+        }
 
         lifecycleScope.launch {
             runCatching {
@@ -306,78 +544,78 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }.onSuccess { artwork ->
                 AnalyticsTracker.logArtworkLoadResult(this@ArViewerActivity, "success", artworkId)
                 currentArtwork = artwork
+                currentLoadOrigin = origin
                 bindArtwork(artwork)
             }.onFailure {
                 AnalyticsTracker.logArtworkLoadResult(this@ArViewerActivity, "failure", artworkId)
-                tvStatus.text = "LOAD FAILED"
-                tvArHint.text = "작품 정보를 가져오지 못했습니다. 다시 스캔해 주세요."
-                Toast.makeText(this@ArViewerActivity, "작품 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
+                tvStatus.text = getString(R.string.ar_status_load_failed)
+                tvArHint.text = getString(R.string.ar_hint_load_failed)
+                Toast.makeText(this@ArViewerActivity, getString(R.string.ar_hint_load_failed), Toast.LENGTH_SHORT).show()
                 lastScannedValue = null
-                scanningEnabled = true
+                if (origin == LoadOrigin.Qr) {
+                    scanningEnabled = true
+                }
             }
         }
     }
 
     private fun bindArtwork(artwork: ArtworkExperience) {
-        tvStatus.text = "WORK ${artwork.id}"
-        tvArHint.text = "카메라는 켜진 상태입니다. 아래 요약 설명을 보다가 필요하면 상세보기로 확장하세요."
+        setViewerState(ViewerState.ArtworkLoaded)
+        tvStatus.text = getString(R.string.ar_status_artwork_loaded, artwork.id)
+        tvArHint.text = getString(R.string.ar_hint_artwork_loaded)
 
         tvPeekTitle.text = artwork.title
         tvPeekSummary.text = artwork.summaryDescription
         tvDetailTitle.text = artwork.title
-        tvArtist.text = "작가: ${artwork.artist}"
+        tvArtist.text = getString(R.string.ar_artist_label, artwork.artist)
         tvDetailBody.text = artwork.detailDescription
-        tvArModeGuide.text = "카메라를 유지한 채 요약 설명을 볼 수 있고, 상세보기를 누르면 긴 설명이 펼쳐집니다."
+        tvArModeGuide.text = getString(R.string.ar_guide_artwork_loaded)
 
-        previewView.isVisible = true
         scanFrame.isVisible = false
         dimOverlay.isVisible = true
-        dimOverlay.alpha = 0.22f
+        dimOverlay.alpha = if (currentLoadOrigin == LoadOrigin.Marker) 0.08f else 0.22f
         bottomSheet.isVisible = true
         bottomSheet.bringToFront()
         bottomSheet.requestLayout()
-        tvArModeBadge.isVisible = false
+        tvArModeBadge.isVisible = currentLoadOrigin == LoadOrigin.Marker
+        tvArModeBadge.text = getString(R.string.ar_status_marker_scan)
         updateSheetExpanded(false)
     }
 
     private fun speakDetailDescription() {
         val artwork = currentArtwork ?: return
         if (!isTtsReady) {
-            Toast.makeText(this, "TTS가 아직 준비되지 않았습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.ar_tts_not_ready), Toast.LENGTH_SHORT).show()
             return
         }
 
         tts?.stop()
         AnalyticsTracker.logTtsPlay(this, artwork.id)
-        tts?.speak(artwork.detailDescription, TextToSpeech.QUEUE_FLUSH, null, "artar-detail")
+        tts?.speak(artwork.detailDescription, TextToSpeech.QUEUE_FLUSH, null, "artar-detail-${artwork.id}")
     }
 
-    private fun enterArMode() {
+    private fun focusArMode() {
         val artwork = currentArtwork ?: run {
-            Toast.makeText(this, "먼저 작품 QR을 스캔해 주세요.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.ar_scan_artwork_first), Toast.LENGTH_SHORT).show()
             return
         }
 
         AnalyticsTracker.logArModeStart(this, artwork.id)
         updateSheetExpanded(false)
         tvArModeBadge.isVisible = true
-        tvArModeBadge.text = "AR MODE"
-        tvArModeGuide.text = "${artwork.title} 작품의 AR 모드가 활성화되었습니다. 현재는 설명창을 접은 상태에서 AR 전환 UX까지 연결되어 있습니다."
-        tvStatus.text = "AR ACTIVE"
-    }
-
-    private fun enterScanningMode() {
-        previewView.isVisible = true
-        dimOverlay.isVisible = true
-        dimOverlay.alpha = 0.12f
-        preScanGuideGroup.isVisible = false
-        scanFrame.isVisible = true
+        tvArModeBadge.text = getString(R.string.ar_status_marker_scan)
+        tvArModeGuide.text = getString(R.string.ar_hint_artwork_loaded)
+        tvStatus.text = getString(R.string.ar_status_artwork_loaded, artwork.id)
     }
 
     private fun updateSheetExpanded(expanded: Boolean) {
         isDetailExpanded = expanded
         detailGroup.isVisible = expanded
-        btnSeeMore.text = if (expanded) "요약으로 보기" else "상세보기"
+        btnSeeMore.text = if (expanded) {
+            getString(R.string.ar_button_summary)
+        } else {
+            getString(R.string.ar_button_detail)
+        }
         val layoutParams = bottomSheet.layoutParams
         layoutParams.height = if (expanded) {
             resources.displayMetrics.heightPixels -
@@ -389,17 +627,66 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         bottomSheet.requestLayout()
     }
 
-    private fun parseArtworkId(rawValue: String): Int? {
-        Regex("""^artar://work/(\d+)$""").find(rawValue)?.let {
-            return it.groupValues[1].toIntOrNull()
+    private fun setViewerState(state: ViewerState) {
+        currentState = state
+        when (state) {
+            ViewerState.Preparing -> {
+                tvStatus.text = getString(R.string.ar_status_preparing)
+                tvArHint.text = getString(R.string.ar_hint_preparing)
+                tvArModeGuide.text = getString(R.string.ar_guide_marker_scan)
+                tvArModeBadge.isVisible = false
+                preScanGuideGroup.isVisible = true
+                btnScanQr.text = getString(R.string.ar_button_qr_fallback)
+            }
+
+            ViewerState.MarkerScanning -> {
+                tvStatus.text = getString(R.string.ar_status_marker_scan)
+                tvArHint.text = getString(R.string.ar_hint_marker_scan)
+                tvArModeGuide.text = getString(R.string.ar_guide_marker_scan)
+                tvArModeBadge.isVisible = true
+                tvArModeBadge.text = getString(R.string.ar_status_marker_scan)
+                preScanGuideGroup.isVisible = true
+                btnScanQr.text = getString(R.string.ar_button_qr_fallback)
+            }
+
+            ViewerState.QrFallbackScanning -> {
+                tvStatus.text = getString(R.string.ar_status_qr_scan)
+                tvArHint.text = getString(R.string.ar_hint_qr_scan)
+                tvArModeGuide.text = getString(R.string.ar_guide_qr_scan)
+                tvArModeBadge.isVisible = false
+            }
+
+            ViewerState.ArtworkLoaded -> {
+                tvArHint.text = getString(R.string.ar_hint_artwork_loaded)
+                tvArModeGuide.text = getString(R.string.ar_guide_artwork_loaded)
+                preScanGuideGroup.isVisible = false
+            }
+
+            ViewerState.ArUnavailable -> {
+                tvStatus.text = getString(R.string.ar_status_ar_unavailable)
+                tvArHint.text = getString(R.string.ar_hint_ar_unavailable)
+                tvArModeGuide.text = getString(R.string.ar_guide_qr_scan)
+                tvArModeBadge.isVisible = false
+                preScanGuideGroup.isVisible = true
+                btnScanQr.text = getString(R.string.ar_button_qr_fallback)
+            }
+
+            ViewerState.PermissionDenied -> {
+                stopQrCamera()
+                pauseArSession()
+                glSurfaceView.isVisible = false
+                previewView.isVisible = false
+                scanFrame.isVisible = false
+                dimOverlay.isVisible = true
+                dimOverlay.alpha = 1f
+                bottomSheet.isVisible = false
+                tvStatus.text = getString(R.string.ar_status_permission_denied)
+                tvArHint.text = getString(R.string.ar_hint_permission_denied)
+                tvArModeGuide.text = getString(R.string.ar_privacy_notice)
+                tvArModeBadge.isVisible = false
+                preScanGuideGroup.isVisible = true
+            }
         }
-        Regex("""[?&]id=(\d+)""").find(rawValue)?.let {
-            return it.groupValues[1].toIntOrNull()
-        }
-        Regex("""(?:work|artwork|venue)/(\d+)""").find(rawValue)?.let {
-            return it.groupValues[1].toIntOrNull()
-        }
-        return rawValue.toIntOrNull()
     }
 
     private fun logOpenEvents() {
@@ -423,10 +710,21 @@ class ArViewerActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             PackageManager.PERMISSION_GRANTED
     }
 
+    private fun ttsLocaleForCurrentConfiguration(): Locale {
+        val locale = resources.configuration.locales[0]
+        return when (locale.language) {
+            Locale.ENGLISH.language -> Locale.ENGLISH
+            Locale.JAPANESE.language -> Locale.JAPANESE
+            Locale.CHINESE.language -> Locale.CHINESE
+            else -> Locale.KOREAN
+        }
+    }
+
     companion object {
         const val EXTRA_MUSEUM_ID = "extra_museum_id"
         const val EXTRA_TITLE = "extra_title"
         const val EXTRA_CATEGORY = "extra_category"
         const val EXTRA_LOCATION = "extra_location"
+        private const val ARCORE_AVAILABILITY_RETRY_MS = 300L
     }
 }
