@@ -39,8 +39,8 @@ class ArtworkAdapter(
         holder.tvTitle.text = item.title
         holder.tvFloor.text = item.location
         holder.imgThumbnail.load(item.imageUrl.ifEmpty { null }) {
-            placeholder(R.drawable.ic_stamp)
-            error(R.drawable.ic_stamp)
+            placeholder(R.color.light_teal)
+            error(R.color.light_teal)
         }
         holder.itemView.setOnClickListener { onItemClick(item) }
     }
