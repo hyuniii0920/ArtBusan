@@ -4,7 +4,16 @@
 
 <br>
 
-![ArtBusan 메인 화면](readme_main_img/main.png)
+<p align="center">
+  <img src="readme_main_img/splash.png" width="200" alt="스플래시 화면" />
+  <img src="readme_main_img/main.png" width="200" alt="홈 화면" />
+  <img src="readme_main_img/card_img.png" width="200" alt="작품 상세 화면" />
+  <img src="readme_main_img/ar_camera.png" width="200" alt="AR QR 스캔 안내" />
+</p>
+
+<p align="center">
+  <sub>스플래시 · 홈 · 작품 상세 · AR 안내</sub>
+</p>
 
 <br>
 
