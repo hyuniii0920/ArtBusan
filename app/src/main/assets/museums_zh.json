@@ -8,7 +8,7 @@
     "fee": "免费参观",
     "phone": "051-278-2345",
     "description": "代表釜山现代艺术的空间，展出国内外现代美术作品的常设及企划展。毗邻乙淑岛生态公园，可同时欣赏自然与艺术。",
-    "imageUrl": ""
+    "imageUrl": "https://storage.googleapis.com/artar-busan-public/images/museum_busan_moca.jpg"
   },
   {
     "id": 2,
@@ -19,7 +19,7 @@
     "fee": "免费（部分展览收费）",
     "phone": "051-756-1963",
     "description": "由高丽制钢水营工厂改建而成的复合文化空间，配备图书馆、展览馆、咖啡厅和表演场等多种文化设施。",
-    "imageUrl": ""
+    "imageUrl": "https://storage.googleapis.com/artar-busan-public/images/museum_f1963.jpg"
   },
   {
     "id": 3,
@@ -30,7 +30,7 @@
     "fee": "成人 ₩1,000 / 青少年 ₩600",
     "phone": "051-744-2602",
     "description": "釜山代表性市立美术馆，收藏并展出近现代美术作品。运营多样的企划展和教育项目，是釜山美术文化的中心。",
-    "imageUrl": ""
+    "imageUrl": "https://storage.googleapis.com/artar-busan-public/images/museum_busan_art.jpg"
   },
   {
     "id": 4,
@@ -41,7 +41,7 @@
     "fee": "成人 ₩5,000 / 学生 ₩3,000",
     "phone": "051-746-0055",
     "description": "韩国首家摄影专门美术馆，展出国内外摄影家作品，是探索摄影艺术历史与现代趋势的空间。",
-    "imageUrl": ""
+    "imageUrl": "https://storage.googleapis.com/artar-busan-public/images/museum_goeun_photo.jpg"
   },
   {
     "id": 5,
@@ -52,7 +52,7 @@
     "fee": "成人 ₩17,000 / 儿童 ₩13,000",
     "phone": "1800-1467",
     "description": "利用光与声音打造大型互动展览的沉浸式媒体艺术空间，以自然为主题构建梦幻般的数字艺术世界。",
-    "imageUrl": ""
+    "imageUrl": "https://storage.googleapis.com/artar-busan-public/images/museum_arte_busan.jpg"
   },
   {
     "id": 6,
@@ -63,7 +63,7 @@
     "fee": "免费参观",
     "phone": "051-253-3845",
     "description": "记录釜山近代历史的博物馆，展出从开港期到现代的釜山历史与文化，活用旧东洋拓殖株式会社釜山支店建筑。",
-    "imageUrl": ""
+    "imageUrl": "https://storage.googleapis.com/artar-busan-public/images/museum_modern_history.jpg"
   },
   {
     "id": 7,
@@ -74,7 +74,7 @@
     "fee": "免费参观",
     "phone": "051-790-7400",
     "description": "纪念釜山民主化运动历史的公园，由民主抗争纪念馆和户外公园构成，可体验和了解釜山民主化运动历史。",
-    "imageUrl": ""
+    "imageUrl": "https://storage.googleapis.com/artar-busan-public/images/museum_democracy_park.jpg"
   },
   {
     "id": 8,
@@ -85,6 +85,6 @@
     "fee": "各展览价格不同",
     "phone": "051-519-5252",
     "description": "金井区代表性文化空间，运营展览、演出、教育等多种文化项目，定期举办发掘推介地方艺术家作品的企划展。",
-    "imageUrl": ""
+    "imageUrl": "https://storage.googleapis.com/artar-busan-public/images/museum_geumjeong_culture.jpg"
   }
 ]
