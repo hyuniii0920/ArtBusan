@@ -1,6 +1,6 @@
 # ArtBusan
 
-부산 미술관·박물관을 위한 AR 기반 전시 안내 Android 앱
+## 부산 미술관·박물관을 위한 AR 기반 전시 안내 Android 앱
 
 <br>
 
