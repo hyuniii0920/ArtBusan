@@ -9,29 +9,27 @@ import kotlinx.coroutines.withContext
 class MuseumRepository(private val dao: MuseumDao, private val context: Context) {
 
     suspend fun getAll(): List<Museum> = withContext(Dispatchers.IO) {
-        seedIfEmpty()
+        syncMuseums()
         dao.getAll()
     }
 
     suspend fun getByCategory(category: String): List<Museum> = withContext(Dispatchers.IO) {
-        seedIfEmpty()
+        syncMuseums()
         dao.getByCategory(category)
     }
 
     suspend fun getById(id: Int): Museum? = withContext(Dispatchers.IO) {
-        seedIfEmpty()
+        syncMuseums()
         dao.getById(id)
     }
 
-    private suspend fun seedIfEmpty() {
-        if (dao.count() == 0) {
-            val lang = context.getSharedPreferences("artbusan_prefs", Context.MODE_PRIVATE)
-                .getString("selected_language", "ko") ?: "ko"
-            val fileName = if (lang == "ko") "museums.json" else "museums_$lang.json"
-            val json = context.assets.open(fileName).bufferedReader().readText()
-            val type = object : TypeToken<List<Museum>>() {}.type
-            val museums: List<Museum> = Gson().fromJson(json, type)
-            dao.insertAll(museums)
-        }
+    private suspend fun syncMuseums() {
+        val lang = context.getSharedPreferences("artbusan_prefs", Context.MODE_PRIVATE)
+            .getString("selected_language", "ko") ?: "ko"
+        val fileName = if (lang == "ko") "museums.json" else "museums_$lang.json"
+        val json = context.assets.open(fileName).bufferedReader().readText()
+        val type = object : TypeToken<List<Museum>>() {}.type
+        val museums: List<Museum> = Gson().fromJson(json, type)
+        dao.insertAll(museums)
     }
 }

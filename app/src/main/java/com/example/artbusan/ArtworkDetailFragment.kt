@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.load
 import com.example.artbusan.data.MuseumDatabase
 import kotlinx.coroutines.launch
 
@@ -38,6 +40,8 @@ class ArtworkDetailFragment : Fragment() {
         val title = arguments?.getString("title") ?: ""
         val category = arguments?.getString("category") ?: ""
         val location = arguments?.getString("location") ?: ""
+        val imageUrl = arguments?.getString("imageUrl") ?: ""
+        val poster = view.findViewById<ImageView>(R.id.imgPoster)
 
         view.findViewById<View>(R.id.btnBack).setOnClickListener {
             findNavController().popBackStack()
@@ -57,6 +61,10 @@ class ArtworkDetailFragment : Fragment() {
             view.findViewById<TextView>(R.id.tvDetailTitle).text = title
             view.findViewById<TextView>(R.id.tvDetailCategory).text = translateCategory(requireContext(), category)
             view.findViewById<TextView>(R.id.tvDetailLocation).text = location
+            poster.load(imageUrl.ifEmpty { null }) {
+                placeholder(R.color.light_teal)
+                error(R.color.light_teal)
+            }
             return
         }
 
@@ -70,6 +78,10 @@ class ArtworkDetailFragment : Fragment() {
             view.findViewById<TextView>(R.id.tvDetailFee).text = museum.fee
             view.findViewById<TextView>(R.id.tvDetailPhone).text = museum.phone
             view.findViewById<TextView>(R.id.tvDetailDescription).text = museum.description
+            poster.load(museum.imageUrl.ifEmpty { null }) {
+                placeholder(R.color.light_teal)
+                error(R.color.light_teal)
+            }
         }
     }
 }

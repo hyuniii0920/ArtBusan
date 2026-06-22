@@ -97,7 +97,44 @@
     <string name="settings_version_value">v1.0.0</string>
     <string name="dialog_ok">확인</string>
     <string name="app_info_title">앱 정보</string>
-    <string name="app_info_message">ArtBusan\n버전 1.0.0\n\n부산 미술관·박물관을 위한\nAR 기반 전시 안내 앱입니다.</string>
+    <string name="app_info_message">ArtBusan\n버전 1.0.0\n\n부산 미술관·박물관을 위한\nAR 기반 전시 안내 앱입니다.\n\n이 앱의 AR 기능은 Google LLC가 제공하는 Google Play Services for AR을 사용합니다.</string>
     <string name="version_info_title">버전 정보</string>
     <string name="version_message">현재 버전: v1.0.0\n최신 버전입니다.</string>
+
+    <!-- AR viewer -->
+    <string name="ar_status_preparing">AR 준비 중</string>
+    <string name="ar_status_marker_scan">마커 스캔</string>
+    <string name="ar_status_qr_scan">QR 스캔</string>
+    <string name="ar_status_ar_unavailable">AR 사용 불가</string>
+    <string name="ar_status_permission_denied">카메라 권한 필요</string>
+    <string name="ar_status_artwork_loaded">작품 %1$d</string>
+    <string name="ar_status_load_failed">불러오기 실패</string>
+    <string name="ar_status_invalid_qr">잘못된 QR</string>
+    <string name="ar_hint_preparing">ARCore 마커 인식 환경을 준비하고 있습니다.</string>
+    <string name="ar_hint_marker_scan">카메라에 데모 마커 포스터를 비추면 작품 AR 오버레이가 표시됩니다.</string>
+    <string name="ar_hint_qr_scan">QR 코드를 화면 중앙에 맞추면 작품 설명이 표시됩니다.</string>
+    <string name="ar_hint_ar_unavailable">이 기기에서는 ARCore를 사용할 수 없어 QR fallback으로 전환합니다.</string>
+    <string name="ar_hint_permission_denied">AR과 QR 스캔을 사용하려면 카메라 권한이 필요합니다.</string>
+    <string name="ar_hint_loading_artwork">작품 정보를 불러오는 중입니다.</string>
+    <string name="ar_hint_artwork_loaded">마커 위 AR 프레임과 아래 작품 설명을 함께 확인할 수 있습니다.</string>
+    <string name="ar_hint_load_failed">작품 정보를 가져오지 못했습니다. 다시 스캔해 주세요.</string>
+    <string name="ar_hint_invalid_qr">지원 형식: artar://work/1</string>
+    <string name="ar_guide_marker_scan">마커 인식이 어려우면 QR fallback을 사용할 수 있습니다.</string>
+    <string name="ar_guide_qr_scan">QR fallback은 ARCore가 없거나 마커 인식이 어려운 환경을 위한 보조 흐름입니다.</string>
+    <string name="ar_guide_artwork_loaded">상세보기와 TTS로 작품 설명을 이어서 확인하세요.</string>
+    <string name="ar_guide_marker_lost">마커가 화면 밖으로 벗어났습니다. 다시 포스터를 비춰 주세요.</string>
+    <string name="ar_button_qr_fallback">QR로 스캔하기</string>
+    <string name="ar_button_rescan">재스캔</string>
+    <string name="ar_button_summary">요약으로 보기</string>
+    <string name="ar_button_detail">상세보기</string>
+    <string name="ar_button_tts">TTS 읽어주기</string>
+    <string name="ar_button_ar_mode">AR로 보기</string>
+    <string name="ar_initial_title">작품 마커를 비춰 주세요</string>
+    <string name="ar_initial_summary">데모 마커는 test_poster.jpg이며, QR fallback은 artar://work/1 형식을 지원합니다.</string>
+    <string name="ar_artist_label">작가: %1$s</string>
+    <string name="ar_tts_not_ready">TTS가 아직 준비되지 않았습니다.</string>
+    <string name="ar_scan_artwork_first">먼저 작품 마커 또는 QR을 스캔해 주세요.</string>
+    <string name="ar_arcore_install_requested">Google Play Services for AR 설치 또는 업데이트가 필요합니다.</string>
+    <string name="ar_qr_fallback_started">QR fallback으로 전환했습니다.</string>
+    <string name="ar_privacy_notice">이 앱의 AR 기능은 Google LLC가 제공하는 Google Play Services for AR을 사용합니다. 자세한 내용은 Google 개인정보처리방침을 확인하세요.</string>
 </resources>
